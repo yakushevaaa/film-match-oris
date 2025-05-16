@@ -1,0 +1,63 @@
+import { InteractiveCard } from "@features/InteractiveCard";
+import { useState } from "react";
+import { Promo } from "@features/Promo";
+import { RecommendCategories } from "@features/RecommendCategories";
+import { CategoriesList } from "@features/CategoriesList";
+import styles from "./index.module.scss";
+export const MainPage = () => {
+  const [filmData, setFilmData] = useState({
+    id: 1,
+    title: "Название фильма",
+    imageUrl: "/images/film-pic.png",
+    imageAlt: "Описание изображения",
+    description:
+      "Питер Паркер — обычный подросток, живущий в Нью-Йорке. Он сталкивается с типичными проблемами, такими как учеба, отношения и жизнь с тетей Мэй и дядей Беном. После укуса паука он обнаруживает, что обладает сверхчеловеческими способностями: он может лазить по стенам, обладает повышенной силой и рефлексами, а также чувствует опасность благодаря паучьему чутью. После трагической смерти дяди Бена, Питер решает использовать свои способности для борьбы с преступностью, принимая на себя личину Человека-паука.Он сталкивается с различными врагами, включая Зелёного гоблина, который является одним из его самых известных противников.",
+  });
+
+  const categories = [
+    {
+      id: 1,
+      name: "Боевики",
+      imageUrl: "/images/category.webp",
+      imageAlt: "Боевики",
+    },
+    {
+      id: 2,
+      name: "Комедии",
+      imageUrl: "/images/category.webp",
+      imageAlt: "Комедии",
+    },
+    {
+      id: 3,
+      name: "Драмы",
+      imageUrl: "/images/category.webp",
+      imageAlt: "Драмы",
+    },
+  ];
+
+  const handleDislike = (id: number) => {
+    console.log("Дизлайк фильма с ID:", id);
+  };
+
+  const handleLike = (id: number) => {
+    console.log("Лайк фильма с ID:", id);
+  };
+
+  const handleFavorite = (id: number) => {
+    console.log("Добавление в избранное фильма с ID:", id);
+  };
+  return (
+    <>
+      <Promo />
+      <InteractiveCard
+        filmData={filmData}
+        onDislike={handleDislike}
+        onLike={handleLike}
+        onFavorite={handleFavorite}
+      />
+
+      <RecommendCategories categories={categories} />
+      <CategoriesList />
+    </>
+  );
+};

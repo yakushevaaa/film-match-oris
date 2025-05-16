@@ -1,0 +1,31 @@
+.promo {
+  background-image: url(/images/promo.webp);
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  &__title-container {
+    padding: 20% 0;
+    @include flex-container($direction: column, $gap: 20px);
+    width: 60%;
+  }
+  &__title {
+    font-family: "Montserrat-Bold";
+    font-size: 52px;
+    color: var(--text-color-light);
+    text-transform: uppercase;
+    @include flex-container($gap: 10px);
+    white-space: nowrap;
+    width: 60%;
+  }
+
+  &__subtitle {
+    font-family: "Montserrat-Bold";
+    font-size: 44px;
+    color: var(--text-color-light);
+    text-transform: uppercase;
+  }
+
+  &__icon {
+    width: 100px;
+  }
+}

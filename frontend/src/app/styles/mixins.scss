@@ -1,0 +1,21 @@
+@mixin secondary-accent-color-title($font-size: 56px) {
+  font-family: "Montserrat-Bold";
+  font-weight: 700;
+  color: var(--accent-secondary-color);
+  font-size: $font-size;
+}
+
+@mixin dark-title($font-size: 56px) {
+  font-family: "Montserrat-Bold";
+  font-weight: 700;
+  font-size: $font-size;
+  color: var(--text-color-dark);
+}
+
+@mixin flex-container($direction: row, $gap: 0, $justify-content: center) {
+  display: flex;
+  align-items: center;
+  flex-direction: $direction;
+  justify-content: $justify-content;
+  gap: $gap;
+}

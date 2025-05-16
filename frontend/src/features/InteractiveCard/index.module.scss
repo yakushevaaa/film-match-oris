@@ -1,0 +1,63 @@
+.card-container {
+  padding: 200px 200px 150px 200px;
+  background-image: url(/icons/section-bg.svg);
+  background-size: 100% auto;
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+}
+
+.card {
+  background-color: #f4f6ff;
+  box-shadow: 8px 0px 40px 0px #00000040;
+  border-radius: 25px;
+  padding: 40px;
+
+  &__img {
+    width: 1140px;
+    height: 525px;
+    object-fit: cover;
+  }
+
+  &__title {
+    margin-top: 16px;
+    @include secondary-accent-color-title($font-size: 44px);
+  }
+
+  &__description {
+    margin-top: 16px;
+    font-size: 16px;
+    color: var(--text-color-dark);
+    font-family: "Montserrat-Medium";
+    font-weight: 700;
+    line-height: 24px;
+    text-transform: uppercase;
+  }
+
+  &__buttons-container {
+    margin-top: 24px;
+    @include flex-container($gap: 0);
+  }
+
+  &__buttons-list {
+    @include flex-container($gap: 72px);
+    background-color: var(--accent-secondary-color);
+    border-radius: 28px;
+    padding: 12px 32px;
+  }
+
+  &__button {
+    padding: 12px;
+    background-color: white;
+
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(233, 233, 233);
+    }
+  }
+
+  &__button-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
