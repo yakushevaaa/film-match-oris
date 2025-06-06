@@ -1,0 +1,11 @@
+.auth_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("/icons/auth-pink-bg.svg") left center no-repeat,
+    url("/icons/auth-blue-bg.svg") 100% 100% no-repeat,
+    var(--accent-third-color);
+
+  background-size: auto 100%;
+  min-height: 100vh;
+}

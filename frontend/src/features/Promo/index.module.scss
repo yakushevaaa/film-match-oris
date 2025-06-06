@@ -9,7 +9,6 @@
     width: 60%;
   }
   &__title {
-    font-family: "Montserrat-Bold";
     font-size: 52px;
     color: var(--text-color-light);
     text-transform: uppercase;
@@ -19,8 +18,8 @@
   }
 
   &__subtitle {
-    font-family: "Montserrat-Bold";
     font-size: 44px;
+    font-weight: bold;
     color: var(--text-color-light);
     text-transform: uppercase;
   }

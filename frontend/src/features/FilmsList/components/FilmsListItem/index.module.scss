@@ -1,0 +1,47 @@
+.item {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+
+  &__icon {
+    height: 20px;
+    width: 20px;
+  }
+
+  &__button {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    padding: 7px;
+    border-radius: 9px;
+  }
+
+  &__img {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 9px 9px 0 0;
+  }
+
+  &__data_container {
+    padding: 16px 20px;
+    background: linear-gradient(
+      100.38deg,
+      #ffffff 12.94%,
+      rgba(255, 255, 255, 0) 159.1%
+    );
+    border-radius: inherit;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__data {
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--text-color-dark);
+  }
+}

@@ -1,0 +1,33 @@
+.film_page_container {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 0.75fr 2fr;
+  grid-template-areas:
+    ". top"
+    "content content";
+  padding: 0 150px;
+  background-image: url(/icons/section-bg-small.svg);
+  background-size: 100% auto;
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+}
+
+.top__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-area: top;
+}
+
+.content {
+  padding-bottom: 170px;
+  margin-top: 32px;
+  grid-area: content;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 0.6fr 2fr;
+}
+
+.filters {
+  align-self: flex-start;
+}

@@ -1,0 +1,47 @@
+// .input {
+//   color: var(--text-color-dark-54);
+//   border: 0.5px solid var(--text-color-dark-42);
+//   border-radius: 8px;
+//   padding: 8px 20px;
+//   font-size: 14px;
+// }
+.inputContainer {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input {
+  color: var(--text-color-dark-54);
+  border: 0.5px solid var(--text-color-dark-42);
+  border-radius: 8px;
+  padding: 16px 20px 8px; // Больше места сверху для лейбла
+  font-size: 14px;
+  width: 100%;
+  transition: all 0.3s ease;
+  background: transparent;
+
+  &:focus {
+    border-color: var(--accent-secondary-color);
+    outline: none;
+  }
+}
+
+.label {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-color-dark-42);
+  font-size: 14px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background: white;
+  padding: 0 4px;
+}
+
+.labelFloating {
+  top: 0;
+  transform: translateY(-50%) scale(0.9);
+  color: var(--accent-secondary-color);
+  font-size: 12px;
+}

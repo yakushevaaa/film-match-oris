@@ -1,14 +1,18 @@
 export interface Film {
   id: number;
   title: string;
+  releaseDate: string;
   imageUrl: string;
-  imageAlt: string;
-  description: string;
+  // imageAlt: string;
+  descriptionLong: string;
+  descriptionShort: string;
+  // categoryId: string;
+  categoryName: string;
 }
 
 export interface FilmProps {
   filmData: Film;
-  onDislike: (id: number) => void;
   onLike: (id: number) => void;
+  onDislike: (id: number) => void;
   onFavorite: (id: number) => void;
 }

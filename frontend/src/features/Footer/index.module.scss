@@ -13,7 +13,6 @@
     padding: 16px;
     font-size: 16px;
     font-weight: 700;
-    font-family: "Montserrat-Bold";
     background-color: var(--accent-secondary-color);
     border-radius: 49px;
     color: var(--text-color-light);
@@ -46,18 +45,15 @@
 
   &__title {
     text-transform: uppercase;
-    font-family: "Montserrat-Bold";
     font-weight: 900;
   }
 
   &__subtitle {
-    font-family: "Montserrat-Bold";
     color: var(--text-color-light);
     font-size: 24px;
   }
 
   &__text {
-    font-family: "Montserrat-Medium";
     line-height: 24px;
   }
 }

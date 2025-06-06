@@ -9,13 +9,13 @@ export const InteractiveCard = ({
   onLike,
   onFavorite,
 }: FilmProps) => {
-  const { id, title, imageUrl, imageAlt, description } = filmData;
+  const { id, title, imageUrl, descriptionLong } = filmData;
   return (
     <section id="interactive-card" className={styles["card-container"]}>
       <div className={styles.card}>
-        <img className={styles.card__img} src={imageUrl} alt={imageAlt} />
+        <img className={styles.card__img} src={imageUrl} alt={title} />
         <h3 className={styles.card__title}>{title}</h3>
-        <p className={styles.card__description}>{description}</p>
+        <p className={styles.card__description}>{descriptionLong}</p>
         <div className={styles["card__buttons-container"]}>
           <div className={styles["card__buttons-list"]}>
             <button className={styles.card__button}>

@@ -1,0 +1,43 @@
+input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.filters {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 16px;
+
+  &__item {
+    position: relative;
+    margin: 0;
+  }
+  &__label {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px 16px;
+    border-radius: 61px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: var(--surface-8-background-color);
+    color: var(--text-color-dark);
+
+    &:hover {
+      background-color: var(--surface-8-background-color-hover);
+    }
+  }
+
+  &__label_active {
+    background-color: var(--accent-color);
+    color: var(--text-color-light);
+
+    &:hover {
+      background-color: var(--accent-color-hover);
+    }
+  }
+}
