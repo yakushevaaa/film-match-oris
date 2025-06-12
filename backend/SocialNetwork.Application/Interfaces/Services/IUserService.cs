@@ -83,4 +83,40 @@ namespace FilmMatch.Application.Interfaces.Services ;
         /// <param name="id">идентификатор</param>
         /// <returns>-</returns>
         public Task<IdentityUser<Guid>?> GetUserById(Guid id);
+
+        /// <summary>
+        /// Проверить, является ли пользователь богом
+        /// </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns></returns>
+        public Task<bool> IsGodAsync(IdentityUser<Guid> user);
+
+        /// <summary>
+        /// Проверить, является ли пользователь администратором
+        /// </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns></returns>
+        public Task<bool> IsAdminAsync(IdentityUser<Guid> user);
+
+        /// <summary>
+        /// Проверить, является ли пользователь обычным пользователем
+        /// </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns></returns>
+        public Task<bool> IsUserAsync(IdentityUser<Guid> user);
+
+        /// <summary>
+        /// Создать нового администратора
+        /// </summary>
+        /// <param name="email">Email администратора</param>
+        /// <param name="password">Пароль администратора</param>
+        /// <returns></returns>
+        public Task<IdentityResult> CreateAdminAsync(string email, string password);
+
+        /// <summary>
+        /// Назначить пользователю роль администратора по email
+        /// </summary>
+        /// <param name="email">Email пользователя</param>
+        /// <returns></returns>
+        public Task<IdentityResult> MakeAdminAsync(string email);
     }

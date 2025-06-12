@@ -15,4 +15,9 @@ namespace FilmMatch.Domain.Constants ;
         /// Админ
         /// </summary>
         public const string Admin = "Admin";
+
+        /// <summary>
+        /// Бог
+        /// </summary>
+        public const string God = "God";
     }

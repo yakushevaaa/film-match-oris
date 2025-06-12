@@ -48,4 +48,45 @@ namespace FilmMatch.Infrastructure.Services ;
 
         public Task<IdentityUser<Guid>?> GetUserById(Guid id)
             => _userManager.FindByIdAsync(id.ToString());
+
+        public async Task<bool> IsGodAsync(IdentityUser<Guid> user)
+        {
+            return await _userManager.IsInRoleAsync(user, FilmMatch.Domain.Constants.RoleConstants.God);
+        }
+
+        public async Task<bool> IsAdminAsync(IdentityUser<Guid> user)
+        {
+            return await _userManager.IsInRoleAsync(user, FilmMatch.Domain.Constants.RoleConstants.Admin);
+        }
+
+        public async Task<bool> IsUserAsync(IdentityUser<Guid> user)
+        {
+            return await _userManager.IsInRoleAsync(user, FilmMatch.Domain.Constants.RoleConstants.User);
+        }
+
+        /// <summary>
+        /// Создать админа (только для бога)
+        /// </summary>
+        public async Task<IdentityResult> CreateAdminAsync(string email, string password)
+        {
+            var user = new IdentityUser<Guid> { UserName = email, Email = email };
+            var result = await _userManager.CreateAsync(user, password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, FilmMatch.Domain.Constants.RoleConstants.Admin);
+            }
+            return result;
+        }
+
+        public async Task<IdentityResult> MakeAdminAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return IdentityResult.Failed(new IdentityError { Description = "User not found" });
+
+            if (await _userManager.IsInRoleAsync(user, FilmMatch.Domain.Constants.RoleConstants.Admin))
+                return IdentityResult.Failed(new IdentityError { Description = "User is already an admin" });
+
+            return await _userManager.AddToRoleAsync(user, FilmMatch.Domain.Constants.RoleConstants.Admin);
+        }
     }

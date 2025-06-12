@@ -21,6 +21,12 @@ public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
                 Id = "2",
                 Name = RoleConstants.Admin,
                 NormalizedName = RoleConstants.Admin.ToUpper()
+            },
+            new IdentityRole
+            {
+                Id = "3",
+                Name = RoleConstants.God,
+                NormalizedName = RoleConstants.God.ToUpper()
             });
     }
 }
