@@ -1,0 +1,21 @@
+.search_container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  width: 300px;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.search {
+  caret-color: var(--border-color);
+  color: var(--text-color-dark);
+  width: inherit;
+  padding: inherit;
+}
+
+.search__icon {
+  width: 18px;
+  height: 18px;
+}

@@ -2,44 +2,40 @@ import { useLocation } from "react-router-dom";
 import logoIcon from "/icons/logo.svg";
 import styles from "./index.module.scss";
 import cn from "classnames";
+import { NAV_CONFIG } from "./consts/linksList";
+import { NavLinkCustom } from "@/shared/components/ui/NavLinkCustom";
 
 export const Header = () => {
   const location = useLocation();
 
-  const renderHeader = () => {
-    switch (location.pathname) {
-      case "/":
-        return (
-          <header className={styles.header}>
-            <img className={styles.header__logo} src={logoIcon} />
-            <nav className={styles.nav}>
-              <ul className={styles.nav__list}>
-                <li className={styles.nav__item}>
-                  <a
-                    className={cn(styles.nav__link, styles.nav__link_accent)}
-                    href=""
-                  >
-                    Рекомендуемые
-                  </a>
-                </li>
-                <li className={styles.nav__item}>
-                  <a className={styles.nav__link} href="">
-                    Профиль
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </header>
-        );
+  const matchedPath = Object.keys(NAV_CONFIG).find((path) =>
+    location.pathname.startsWith(path)
+  );
 
-      default:
-        return (
-          <header className={styles.header}>
-            <img className={styles.header__logo} src={logoIcon} />
-          </header>
-        );
-    }
-  };
+  const navLinks = matchedPath ? NAV_CONFIG[matchedPath] : [];
 
-  return <>{renderHeader()}</>;
+  return (
+    <header className={styles.header}>
+      <img className={styles.header__logo} src={logoIcon} />
+
+      {navLinks.length > 0 && (
+        <nav className={styles.nav}>
+          <ul className={styles.nav__list}>
+            {navLinks.map(({ label, to, color, isAccent }) => (
+              <li key={to} className={styles.nav__item}>
+                <NavLinkCustom
+                  to={to}
+                  color={(color ?? "dark") as "light" | "dark"}
+                  isAccent={isAccent}
+                  className={styles.nav__link}
+                >
+                  {label}
+                </NavLinkCustom>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </header>
+  );
 };

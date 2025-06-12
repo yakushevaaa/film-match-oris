@@ -1,0 +1,14 @@
+.link {
+  &_accent {
+    background-color: var(--accent-color);
+    border-radius: 38px;
+    padding: 10px 16px;
+  }
+
+  &_light {
+    color: var(--text-color-light);
+  }
+  &_dark {
+    color: var(--text-color-dark-54);
+  }
+}

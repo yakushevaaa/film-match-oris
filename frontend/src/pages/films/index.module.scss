@@ -1,0 +1,35 @@
+.film_page_container {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 0.75fr 2fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "empty top"
+    "filters films";
+  padding: 0 150px;
+  background-image: url(/icons/section-bg-small.svg);
+  background-size: 100% auto;
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+  gap: 16px;
+}
+
+.top__container {
+  grid-area: top;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.empty {
+  grid-area: empty;
+}
+
+.filters {
+  grid-area: filters;
+  align-self: start;
+}
+
+.films {
+  grid-area: films;
+}
