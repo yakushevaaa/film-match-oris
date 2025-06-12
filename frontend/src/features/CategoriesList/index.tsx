@@ -3,6 +3,8 @@ import styles from "./index.module.scss";
 import { Category } from "@entities/category";
 import { axiosSettings } from "@shared/api/axiosSettings";
 
+const BACKEND_URL = "http://localhost:5210";
+
 export const CategoriesList = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -32,7 +34,7 @@ export const CategoriesList = () => {
             <a className={styles.categories__link} href="">
               <img
                 className={styles.categories__img}
-                src={category.imageUrl}
+                src={`${BACKEND_URL}${category.imageUrl}`}
                 alt={category.imageAlt}
               />
               <h5 className={styles.categories__name}>{category.name}</h5>
