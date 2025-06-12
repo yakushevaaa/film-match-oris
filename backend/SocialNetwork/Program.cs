@@ -92,6 +92,16 @@ public class Program
             .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins("http://localhost:5173")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+            });
+        });
+
         var app = builder.Build();
 
         // Конфигурация middleware ПОСЛЕ Build()
@@ -103,6 +113,7 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseRouting();
+        app.UseCors();
         app.UseAuthorization();
 
         app.MapControllers(); // Не забудьте добавить маршрутизацию контроллеров
