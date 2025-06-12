@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Category } from "@entities/category";
-import axios from "axios";
-import api from "@shared/api/axios";
+import { axiosSettings } from "@shared/api/axiosSettings";
 
 export const CategoriesList = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    axios;
-    api.get("/Category/GetCategory").then((response) => {
-      setCategories(response.data);
-    });
+    axiosSettings
+      .get("/Category/GetCategory")
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((error) => {
+        console.error("Ошибка при получении категорий:", error);
+      });
   }, []);
 
   return (

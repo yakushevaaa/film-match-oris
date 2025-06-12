@@ -36,6 +36,13 @@
   &__link {
     font-weight: 500;
   }
+
+  &__success {
+    color: var(--success-color);
+  }
+}
+.error {
+  color: var(--error-color);
 }
 
 .password_container {

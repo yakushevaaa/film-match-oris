@@ -7,7 +7,7 @@ namespace FilmMatch.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    // [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly IDbContext _dbContext;
