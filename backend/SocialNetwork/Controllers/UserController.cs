@@ -4,6 +4,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using FilmMatch.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using FilmMatch.Domain.Constants;
 
 namespace FilmMatch.Controllers ;
 
@@ -48,13 +50,10 @@ namespace FilmMatch.Controllers ;
             public string Email { get; set; }
         }
 
+        [Authorize(Roles = RoleConstants.God)]
         [HttpPost("make-admin")]
         public async Task<IActionResult> MakeAdmin([FromBody] MakeAdminRequest request)
         {
-            var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            if (currentUser == null || !await _userService.IsGodAsync(currentUser))
-                return Forbid();
-
             var result = await _userService.MakeAdminAsync(request.Email);
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
