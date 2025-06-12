@@ -18,31 +18,31 @@ namespace FilmMatch.Persistence.Configurations
                 {
                     Id = Guid.Parse("d0bfe76e-0f12-4fcd-94aa-3be4f90d79e1"),
                     Name = "Фантастика",
-                    ImageUrl = "/images/category/fantasy.webp"
+                    ImageUrl = "http://localhost:5210/images/category/fantasy.png"
                 },
                 new Category
                 {
                     Id = Guid.Parse("31f80f2a-9426-41e2-93f7-7f12180722a1"),
                     Name = "Триллер",
-                    ImageUrl = "/images/category/thriller.webp"
+                    ImageUrl = "http://localhost:5210/images/category/triller.jpg"
                 },
                 new Category
                 {
                     Id = Guid.Parse("5dbd7a97-f0a1-4f4e-91c7-244cbab17eec"),
                     Name = "Комедия",
-                    ImageUrl = "/images/category/comedy.webp"
+                    ImageUrl = "http://localhost:5210/images/category/comedy.jpg"
                 },
                 new Category
                 {
                     Id = Guid.Parse("4b4974f1-8ea2-43f1-998f-d3a1cfb9d1c3"),
                     Name = "Драма",
-                    ImageUrl = "/images/category/drama.webp"
+                    ImageUrl = "http://localhost:5210/images/category/drama.png"
                 },
                 new Category
                 {
                     Id = Guid.Parse("0b27972c-b3df-4ae4-9138-2e90c749d139"),
                     Name = "Боевик",
-                    ImageUrl = "/images/category/militant.webp"
+                    ImageUrl = "http://localhost:5210/images/category/action.png"
                 }
             );
         }

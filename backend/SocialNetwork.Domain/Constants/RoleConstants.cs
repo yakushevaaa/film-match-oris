@@ -20,4 +20,9 @@ namespace FilmMatch.Domain.Constants ;
         /// Бог
         /// </summary>
         public const string God = "God";
+
+        /// <summary>
+        /// Заблокированный пользователь
+        /// </summary>
+        public const string Blocked = "Blocked";
     }

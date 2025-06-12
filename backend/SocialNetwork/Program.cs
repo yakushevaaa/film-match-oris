@@ -98,7 +98,8 @@ public class Program
             {
                 policy.WithOrigins("http://localhost:5173")
                       .AllowAnyHeader()
-                      .AllowAnyMethod();
+                      .AllowAnyMethod()
+                      .AllowCredentials();
             });
         });
 
@@ -114,9 +115,17 @@ public class Program
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseCors();
+        app.UseAuthentication();
         app.UseAuthorization();
+        
+        // Настройка статических файлов
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            ServeUnknownFileTypes = true,
+            DefaultContentType = "application/octet-stream"
+        });
 
-        app.MapControllers(); // Не забудьте добавить маршрутизацию контроллеров
+        app.MapControllers();
 
         app.Run();
     }

@@ -14,6 +14,7 @@ import { FilmPage } from "@/pages/films";
 import { AuthProvider } from "@/shared/lib/authProvider";
 import { ProtectedRoute } from "@/shared/lib/ProtectedRoutes";
 import { FilmDetail } from "@/pages/filmDetail";
+import { Admin } from "@/pages/admin";
 
 const App: FC = () => {
   return (
@@ -32,7 +33,9 @@ const App: FC = () => {
           </Route>
 
           <Route element={<ProtectedRoute />}>
-            <Route element={<MainLayout />}></Route>
+            <Route element={<MainLayout />}>
+              <Route path="admin" element={<Admin />} />
+            </Route>
           </Route>
 
           <Route path="*" element={<NotFound />} />

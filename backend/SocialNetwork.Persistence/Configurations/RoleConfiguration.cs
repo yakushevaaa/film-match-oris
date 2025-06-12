@@ -12,21 +12,27 @@ public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole<Guid>>
         builder.HasData(
             new IdentityRole<Guid>
             {
-                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                Name = RoleConstants.User,
-                NormalizedName = RoleConstants.User.ToUpper()
+                Id = Guid.Parse("1a1a1a1a-1a1a-1a1a-1a1a-1a1a1a1a1a1a"),
+                Name = RoleConstants.God,
+                NormalizedName = RoleConstants.God.ToUpper()
             },
             new IdentityRole<Guid>
             {
-                Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                Id = Guid.Parse("2b2b2b2b-2b2b-2b2b-2b2b-2b2b2b2b2b2b"),
                 Name = RoleConstants.Admin,
                 NormalizedName = RoleConstants.Admin.ToUpper()
             },
             new IdentityRole<Guid>
             {
-                Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
-                Name = RoleConstants.God,
-                NormalizedName = RoleConstants.God.ToUpper()
+                Id = Guid.Parse("3c3c3c3c-3c3c-3c3c-3c3c-3c3c3c3c3c3c"),
+                Name = RoleConstants.User,
+                NormalizedName = RoleConstants.User.ToUpper()
+            },
+            new IdentityRole<Guid>
+            {
+                Id = Guid.Parse("4d4d4d4d-4d4d-4d4d-4d4d-4d4d4d4d4d4d"),
+                Name = RoleConstants.Blocked,
+                NormalizedName = RoleConstants.Blocked.ToUpper()
             }
         );
     }

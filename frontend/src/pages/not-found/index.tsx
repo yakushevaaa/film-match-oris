@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import styles from "./index.module.scss"
 import notFoundIcon from "/icons/404.svg";
 
@@ -9,7 +9,6 @@ export const NotFound = () => {
     <main className={styles.main}>
       <div className={styles.notFound}>
         <img className={styles.notFound__img} src={notFoundIcon} alt="" />
-        <img className={styles.notFound__separator} src="" alt="" />
         <div className={styles.notFound__content}>
           <h1 className={styles.notFound__title}>This page could not be found</h1>
           <p className={styles.notFound__text}>
