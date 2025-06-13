@@ -35,7 +35,20 @@ namespace FilmMatch.Controllers
         {
             var film = await _dbContext.Films
                 .Include(f => f.Category)
-                .FirstOrDefaultAsync(f => f.Id == id);
+                .Where(f => f.Id == id)
+                .Select(f => new {
+                    f.Id,
+                    f.Title,
+                    f.ReleaseDate,
+                    f.ImageUrl,
+                    f.LongDescription,
+                    f.ShortDescription,
+                    Category = f.Category == null ? null : new {
+                        f.Category.Id,
+                        f.Category.Name
+                    }
+                })
+                .FirstOrDefaultAsync();
 
             if (film == null)
                 return NotFound();

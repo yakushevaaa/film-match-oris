@@ -7,6 +7,7 @@ export interface Film {
   descriptionLong: string;
   descriptionShort: string;
   shortDescription?: string;
+  longDescription?: string;
   // categoryId: string;
   categoryName: string;
   category?: { id: number; name: string };
