@@ -5,5 +5,5 @@ namespace ProFSB.Application.Interfaces.Services ;
 
     public interface IJwtService
     {
-        public string GenerateToken(User user, string? role);
+        public string GenerateToken(User user, IList<string> roles);
     }

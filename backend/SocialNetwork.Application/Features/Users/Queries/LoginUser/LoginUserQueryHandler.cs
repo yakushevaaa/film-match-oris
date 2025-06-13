@@ -29,9 +29,9 @@ namespace FilmMatch.Application.Features.Users.Queries.LoginUser
             if (user == null || !await _userService.CheckPasswordAsync(user, request.Password))
                 throw new AuthenticationException("Неверные логин или пароль");
 
-            var role = await _userService.GetRoleAsync(user);
+            var roles = await _userService.GetRolesAsync(user);
             
-            return new LoginUserResponse(_jwtService.GenerateToken(currentUser, role));
+            return new LoginUserResponse(_jwtService.GenerateToken(currentUser, roles));
         }
     }
 }

@@ -7,25 +7,29 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using FilmMatch.Domain.Constants;
 using System.Security.Claims;
+using FilmMatch.Domain.Entities;
+using FilmMatch.Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace FilmMatch.Controllers ;
 
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IUserService _userService;
         private readonly UserManager<IdentityUser<Guid>> _userManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+        private readonly IDbContext _dbContext;
 
-        public UserController(IMediator mediator, IUserService userService, UserManager<IdentityUser<Guid>> userManager, RoleManager<IdentityRole<Guid>> roleManager)
+        public UserController(IMediator mediator, IUserService userService, UserManager<IdentityUser<Guid>> userManager, RoleManager<IdentityRole<Guid>> roleManager, IDbContext dbContext)
         {
             _mediator = mediator;
             _userService = userService;
             _userManager = userManager;
             _roleManager = roleManager;
+            _dbContext = dbContext;
         }
 
         [HttpPost("register")]
@@ -56,16 +60,21 @@ namespace FilmMatch.Controllers ;
             if (userId == null)
                 return Unauthorized();
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var identityUser = await _userManager.FindByIdAsync(userId);
+            if (identityUser == null)
+                return NotFound();
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.IdentityUserId == identityUser.Id);
             if (user == null)
                 return NotFound();
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userManager.GetRolesAsync(identityUser);
 
             return Ok(new
             {
                 user.Id,
-                user.Email,
+                user.Name,
+                user.HasSubscription,
                 Roles = roles
             });
         }
