@@ -6,8 +6,10 @@ export interface Film {
   // imageAlt: string;
   descriptionLong: string;
   descriptionShort: string;
+  shortDescription?: string;
   // categoryId: string;
   categoryName: string;
+  category?: { id: number; name: string };
 }
 
 export interface FilmProps {

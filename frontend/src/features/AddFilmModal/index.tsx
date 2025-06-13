@@ -8,6 +8,9 @@ interface AddFilmModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  editMode?: boolean;
+  initialData?: Partial<FilmFormData & { id?: number }>;
+  onSubmitCustom?: (data: FilmFormData) => Promise<void>;
 }
 
 interface Category {
@@ -24,15 +27,22 @@ interface FilmFormData {
   categoryId: string;
 }
 
-export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess }) => {
+export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess, editMode = false, initialData, onSubmitCustom }) => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FilmFormData>();
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FilmFormData>();
 
   useEffect(() => {
     if (isOpen) {
       fetchCategories();
+      if (editMode && initialData) {
+        Object.entries(initialData).forEach(([key, value]) => {
+          if (value !== undefined) setValue(key as keyof FilmFormData, value as any);
+        });
+      } else {
+        reset();
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, editMode, initialData, setValue, reset]);
 
   const fetchCategories = async () => {
     try {
@@ -49,19 +59,23 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
       data.releaseDate = new Date(data.releaseDate).toISOString();
     }
     try {
-      await axiosSettings.post("/Film", data);
+      if (editMode && onSubmitCustom) {
+        await onSubmitCustom(data);
+      } else {
+        await axiosSettings.post("/Film", data);
+      }
       reset();
       onSuccess();
       onClose();
     } catch (error) {
-      console.error("Error adding film:", error);
+      console.error(editMode ? "Error editing film:" : "Error adding film:", error);
     }
   };
 
   return (
     <BaseModal isOpen={isOpen} onClose={onClose}>
       <div className={styles.modalContent}>
-        <h2 className={styles.title}>Добавить новый фильм</h2>
+        <h2 className={styles.title}>{editMode ? "Редактировать фильм" : "Добавить новый фильм"}</h2>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div className={styles.formGroup}>
             <label htmlFor="title">Название фильма</label>
@@ -132,7 +146,7 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
               Отмена
             </button>
             <button type="submit" className={styles.submitButton}>
-              Добавить
+              {editMode ? "Сохранить" : "Добавить"}
             </button>
           </div>
         </form>

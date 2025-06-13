@@ -5,54 +5,28 @@ import { GENRE_FILTERS } from "@features/CheckboxFiltersList/consts/filters";
 import { FilmsList } from "@features/FilmsList";
 import styles from "./index.module.scss";
 import { Film } from "@/entities/film";
-const films: Film[] = [
-  {
-    id: 1,
-    title: "Film Name",
-    releaseDate: "2022",
-    imageUrl: "/images/film-img.png",
-    descriptionShort: "Описание",
-    descriptionLong: "Длинное описание",
-    categoryName: "Комедия",
-  },
-  {
-    id: 2,
-    title: "Film Name",
-    releaseDate: "2022",
-    imageUrl: "/images/film-img.png",
-    descriptionShort: "Описание",
-    descriptionLong: "Длинное описание",
-    categoryName: "Комедия",
-  },
-  {
-    id: 3,
-    title: "Film Name",
-    releaseDate: "2022",
-    imageUrl: "/images/film-img.png",
-    descriptionShort: "Описание",
-    descriptionLong: "Длинное описание",
-    categoryName: "Комедия",
-  },
-  {
-    id: 4,
-    title: "Film Name",
-    releaseDate: "2022",
-    imageUrl: "/images/film-img.png",
-    descriptionShort: "Описание",
-    descriptionLong: "Длинное описание",
-    categoryName: "Комедия",
-  },
-  {
-    id: 5,
-    title: "Film Name",
-    releaseDate: "2022",
-    imageUrl: "/images/film-img.png",
-    descriptionShort: "Описание",
-    descriptionLong: "Длинное описание",
-    categoryName: "Комедия",
-  },
-];
+import { useEffect, useState } from "react";
+import { axiosSettings } from "@shared/api/axiosSettings";
+
 export const FilmPage = () => {
+  const [films, setFilms] = useState<Film[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFilms = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axiosSettings.get<Film[]>("/Film/GetAllFilms");
+        setFilms(response.data);
+      } catch (error) {
+        console.error("Error fetching films:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchFilms();
+  }, []);
+
   return (
     <div className={styles.film_page_container}>
       <div className={styles.empty}></div>
