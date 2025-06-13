@@ -15,7 +15,7 @@ namespace FilmMatch.Infrastructure.Services ;
         public JwtService(IConfiguration configuration)
             => _configuration = configuration;
         
-        public string GenerateToken(User user, string? role)
+        public string GenerateToken(User user, IList<string> roles)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtSecurityKey = Encoding.ASCII.GetBytes(
@@ -23,9 +23,15 @@ namespace FilmMatch.Infrastructure.Services ;
             
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
+            if (roles != null)
+            {
+                foreach (var r in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, r));
+                }
+            }
             
             var tokenDescriptor = new SecurityTokenDescriptor
             {
