@@ -44,6 +44,12 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
     }
   }, [isOpen, editMode, initialData, setValue, reset]);
 
+  useEffect(() => {
+    if (editMode && initialData?.categoryId && categories.length > 0) {
+      setValue("categoryId", initialData.categoryId);
+    }
+  }, [categories, editMode, initialData, setValue]);
+
   const fetchCategories = async () => {
     try {
       const response = await axiosSettings.get("/Category/GetCategory");
@@ -133,7 +139,7 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
             >
               <option value="">Выберите категорию</option>
               {categories.map((category) => (
-                <option key={category.id} value={category.id}>
+                <option key={category.id} value={category.id.toString()}>
                   {category.name}
                 </option>
               ))}

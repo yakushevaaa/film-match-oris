@@ -24,15 +24,17 @@ export const FilmsTable = ({ films, isLoading, fetchFilms }: FilmsTableProps) =>
 
     const handleEditSubmit = async (data: any) => {
         try {
-            // Преобразуем дату в UTC ISO-строку
             if (data.releaseDate) {
                 data.releaseDate = new Date(data.releaseDate).toISOString();
             }
             await axiosSettings.put(`/Film/${editFilm?.id}`, {
-                ...editFilm,
-                ...data,
                 id: editFilm?.id,
-                categoryId: data.categoryId || editFilm?.categoryId,
+                title: data.title,
+                releaseDate: data.releaseDate,
+                imageUrl: data.imageUrl,
+                longDescription: data.longDescription,
+                shortDescription: data.shortDescription,
+                categoryId: data.categoryId,
             });
             setEditModalOpen(false);
             setEditFilm(null);
