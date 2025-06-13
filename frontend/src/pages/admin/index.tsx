@@ -1,15 +1,35 @@
 import { FilmsTable } from "@/features/FilmsTable";
 import { AddFilmModal } from "@/features/AddFilmModal";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styles from "./index.module.scss";
+import { axiosSettings } from "@/shared/api/axiosSettings";
+import { Film } from "@/shared/types/film";
 
 export const Admin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [films, setFilms] = useState<Film[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchFilms = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axiosSettings.get<Film[]>("/Film/GetAllFilms");
+      setFilms(response.data);
+    } catch (error) {
+      console.error("Error fetching films:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchFilms();
+  }, [fetchFilms]);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
   const handleSuccess = () => {
-    // Здесь можно добавить обновление таблицы фильмов
+    fetchFilms();
     handleCloseModal();
   };
 
@@ -21,7 +41,7 @@ export const Admin = () => {
           Добавить фильм
         </button>
       </div>
-      <FilmsTable />
+      <FilmsTable films={films} isLoading={isLoading} fetchFilms={fetchFilms} />
       <AddFilmModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}

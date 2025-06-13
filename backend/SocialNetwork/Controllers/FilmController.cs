@@ -92,5 +92,27 @@ namespace FilmMatch.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("GetAllFilms")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllFilms()
+        {
+            var films = await _dbContext.Films
+                .Include(f => f.Category)
+                .Select(f => new {
+                    f.Id,
+                    f.Title,
+                    f.ReleaseDate,
+                    f.ImageUrl,
+                    f.LongDescription,
+                    f.ShortDescription,
+                    Category = f.Category == null ? null : new {
+                        f.Category.Id,
+                        f.Category.Name
+                    }
+                })
+                .ToListAsync();
+            return Ok(films);
+        }
     }
 } 

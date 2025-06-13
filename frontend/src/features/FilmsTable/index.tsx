@@ -1,30 +1,17 @@
-import { useEffect, useState } from 'react';
-import { DataTable } from '@/shared/ui/DataTable';
 import { MRT_ColumnDef, MRT_Row } from 'material-react-table';
 import { Film } from '@/shared/types/film';
+import { DataTable } from '@/shared/ui/DataTable';
 import { axiosSettings } from '@/shared/api/axiosSettings';
 
 const DEFAULT_IMAGE = 'http://localhost:5210/images/category/action.png';
 
-export const FilmsTable = () => {
-    const [films, setFilms] = useState<Film[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+interface FilmsTableProps {
+    films: Film[];
+    isLoading: boolean;
+    fetchFilms: () => Promise<void>;
+}
 
-    const fetchFilms = async () => {
-        try {
-            const response = await axiosSettings.get<Film[]>('/Film/GetAllFilms');
-            setFilms(response.data);
-        } catch (error) {
-            console.error('Error fetching films:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchFilms();
-    }, []);
-
+export const FilmsTable = ({ films, isLoading, fetchFilms }: FilmsTableProps) => {
     const handleEdit = async (row: MRT_Row<Film>) => {
         try {
             await axiosSettings.put(`/Film/UpdateFilm/${row.original.id}`, row.original);

@@ -46,11 +46,13 @@ namespace FilmMatch.Controllers ;
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserQuery request)
         {
-            return Ok(await _mediator.Send(new LoginUserQuery()
+            var ok = await _mediator.Send(new LoginUserQuery()
             {
                 Email = request.Email,
                 Password = request.Password
-            }));
+            });
+            return Ok(ok);
+
         }
 
         [HttpGet("GetCurrentUser")]

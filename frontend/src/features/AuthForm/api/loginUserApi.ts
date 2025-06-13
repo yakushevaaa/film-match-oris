@@ -8,7 +8,11 @@ interface LoginRequest {
 
 export const loginUser = async (data: LoginRequest): Promise<string | null> => {
   try {
-    await axiosSettings.post("/User/login", data);
+    const response = await axiosSettings.post("/User/login", data);
+    const token = response.data.token;
+    if (token) {
+      document.cookie = `token=${token}; path=/; max-age=3600`;
+    }
     return null;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {

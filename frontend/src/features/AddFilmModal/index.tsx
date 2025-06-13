@@ -44,6 +44,10 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
   };
 
   const onSubmit = async (data: FilmFormData) => {
+    // Преобразуем дату в UTC ISO-строку
+    if (data.releaseDate) {
+      data.releaseDate = new Date(data.releaseDate).toISOString();
+    }
     try {
       await axiosSettings.post("/Film", data);
       reset();
