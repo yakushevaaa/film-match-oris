@@ -1,14 +1,34 @@
+import { axiosSettings } from "@shared/api/axiosSettings";
+
 export const useFilmActions = () => {
-  const handleLike = (id: number) => {
-    console.log(`Лайк: ${id}`);
+  const handleLike = async (id: number) => {
+    console.log('Клик по лайку', id);
+    try {
+      await axiosSettings.post(`/Film/Like/${id}`);
+      console.log(`Лайк: ${id}`);
+    } catch (error) {
+      console.error('Ошибка при лайке фильма:', error);
+    }
   };
 
-  const handleDislike = (id: number) => {
-    console.log(`Дизлайк: ${id}`);
+  const handleDislike = async (id: number) => {
+    console.log('Клик по дизлайку', id);
+    try {
+      await axiosSettings.post(`/Film/Dislike/${id}`);
+      console.log(`Дизлайк: ${id}`);
+    } catch (error) {
+      console.error('Ошибка при дизлайке фильма:', error);
+    }
   };
 
-  const handleFavorite = (id: number) => {
-    console.log(`Добавлено в избранное: ${id}`);
+  const handleFavorite = async (id: number) => {
+    console.log('Клик по закладке', id);
+    try {
+      await axiosSettings.post(`/Film/Bookmark/${id}`);
+      console.log(`Добавлено в избранное: ${id}`);
+    } catch (error) {
+      console.error('Ошибка при добавлении в избранное:', error);
+    }
   };
 
   return {

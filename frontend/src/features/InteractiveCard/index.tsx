@@ -24,7 +24,7 @@ export const InteractiveCard = ({
                 className={styles["card__button-icon"]}
                 src={dislikeIcon}
                 alt="Dislike Icon"
-                onClick={() => onDislike(id)}
+                onClick={() => onDislike && onDislike(id)}
               />
             </button>
             <button className={styles.card__button}>
@@ -32,7 +32,7 @@ export const InteractiveCard = ({
                 className={styles["card__button-icon"]}
                 src={favoritesIcon}
                 alt="Favorites Icon"
-                onClick={() => onFavorite(id)}
+                onClick={() => onFavorite && onFavorite(id)}
               />
             </button>
             <button className={styles.card__button}>
@@ -40,7 +40,7 @@ export const InteractiveCard = ({
                 className={styles["card__button-icon"]}
                 src={likeIcon}
                 alt="Like Icon"
-                onClick={() => onLike(id)}
+                onClick={() => onLike && onLike(id)}
               />
             </button>
           </div>

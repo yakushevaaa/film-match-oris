@@ -4,11 +4,14 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Film } from "@/entities/film";
 import { axiosSettings } from "@shared/api/axiosSettings";
+import { useFilmActions } from "@/entities/film/useFilmActions";
 
 export const FilmDetail = () => {
   const { id } = useParams();
   const [filmData, setFilmData] = useState<Film | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { handleLike, handleDislike, handleFavorite } = useFilmActions();
 
   useEffect(() => {
     const fetchFilm = async () => {
@@ -34,9 +37,9 @@ export const FilmDetail = () => {
     <div>
       <InteractiveCard
         filmData={filmData}
-        onLike={() => {}}
-        onDislike={() => {}}
-        onFavorite={() => {}}
+        onLike={handleLike}
+        onDislike={handleDislike}
+        onFavorite={handleFavorite}
       />
     </div>
   );
