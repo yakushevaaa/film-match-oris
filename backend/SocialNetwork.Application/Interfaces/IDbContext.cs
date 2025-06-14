@@ -10,6 +10,9 @@ public interface IDbContext
     DbSet<User> Users { get; }
     DbSet<Category> Categories { get; }
     DbSet<Film> Films { get; }
+    DbSet<UserLikedFilm> UserLikedFilm { get; }
+    DbSet<UserDislikedFilm> UserDislikedFilm { get; }
+    DbSet<UserBookmarkedFilm> UserBookmarkedFilm { get; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     

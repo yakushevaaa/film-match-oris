@@ -13,6 +13,9 @@ namespace FilmMatch.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Film> Films { get; set; }
+        public DbSet<UserLikedFilm> UserLikedFilm { get; set; }
+        public DbSet<UserDislikedFilm> UserDislikedFilm { get; set; }
+        public DbSet<UserBookmarkedFilm> UserBookmarkedFilm { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
