@@ -15,6 +15,7 @@ import { AuthProvider } from "@/shared/lib/authProvider";
 import { ProtectedRoute } from "@/shared/lib/ProtectedRoutes";
 import { FilmDetail } from "@/pages/filmDetail";
 import { Admin } from "@/pages/admin";
+import { Profile } from "@/pages/profile";
 
 const App: FC = () => {
   return (
@@ -35,6 +36,7 @@ const App: FC = () => {
           <Route element={<ProtectedRoute />}>
             <Route element={<MainLayout />}>
               <Route path="admin" element={<Admin />} />
+              <Route path="profile" element={<Profile />} />
             </Route>
           </Route>
 
