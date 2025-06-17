@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using FilmMatch.Application.Extensions;
 using FilmMatch.Application.Interfaces;
+using FilmMatch.Authentication;
 using FilmMatch.Infrastructure.Extensions;
 using FilmMatch.Persistence;
 using FilmMatch.Persistence.Extensions;
@@ -23,6 +24,7 @@ public class Program
         builder.Services.AddPersistenceLayer(builder.Configuration);
         builder.Services.AddInfrastructureLayer();
         builder.Services.AddApplicationLayer();
+        builder.Services.AddUserContext();
         var configuration = builder.Configuration;
         builder.Services.AddSingleton(configuration);
         

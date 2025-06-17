@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using FilmMatch.Domain.Constants;
 using FilmMatch.Domain.Entities;
 using FilmMatch.Application.Interfaces;
-using System;
-using System.Threading.Tasks;
 
 namespace FilmMatch.Controllers
 {
