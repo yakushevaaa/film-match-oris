@@ -6,6 +6,7 @@ using FilmMatch.Domain.Entities;
 using FilmMatch.Application.Interfaces;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace FilmMatch.Controllers
 {
@@ -222,6 +223,44 @@ namespace FilmMatch.Controllers
             _dbContext.UserBookmarkedFilm.Remove(bookmark);
             await _dbContext.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpGet("LikedBy/{userId}")]
+        public async Task<IActionResult> GetLikedFilmsByUser(string userId)
+        {
+            Guid guidUserId;
+            if (userId == "me")
+            {
+                var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (currentUserId == null) return Unauthorized();
+                guidUserId = Guid.Parse(currentUserId);
+            }
+            else
+            {
+                if (!Guid.TryParse(userId, out guidUserId))
+                    return BadRequest("Invalid userId");
+            }
+
+            var likedFilms = await _dbContext.UserLikedFilm
+                .Where(x => x.UserId == guidUserId)
+                .Include(x => x.Film).ThenInclude(f => f.Category)
+                .Select(x => x.Film)
+                .ToListAsync();
+
+            var result = likedFilms.Select(f => new {
+                f.Id,
+                f.Title,
+                f.ReleaseDate,
+                f.ImageUrl,
+                f.LongDescription,
+                f.ShortDescription,
+                Category = f.Category == null ? null : new {
+                    f.Category.Id,
+                    f.Category.Name
+                }
+            });
+
+            return Ok(result);
         }
     }
 } 
