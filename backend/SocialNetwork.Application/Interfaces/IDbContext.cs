@@ -13,6 +13,7 @@ public interface IDbContext
     DbSet<UserLikedFilm> UserLikedFilm { get; }
     DbSet<UserDislikedFilm> UserDislikedFilm { get; }
     DbSet<UserBookmarkedFilm> UserBookmarkedFilm { get; }
+    DbSet<UserFriend> UserFriends { get; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     

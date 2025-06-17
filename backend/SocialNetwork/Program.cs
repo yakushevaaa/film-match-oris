@@ -4,6 +4,7 @@ using FilmMatch.Application.Extensions;
 using FilmMatch.Application.Interfaces;
 using FilmMatch.Authentication;
 using FilmMatch.Infrastructure.Extensions;
+using FilmMatch.Infrastructure.Services;
 using FilmMatch.Persistence;
 using FilmMatch.Persistence.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -119,7 +120,7 @@ public class Program
         app.UseCors();
         app.UseAuthentication();
         app.UseAuthorization();
-        
+        app.UseStaticFiles();
         // Настройка статических файлов
         app.UseStaticFiles(new StaticFileOptions
         {
@@ -128,6 +129,7 @@ public class Program
         });
 
         app.MapControllers();
+        app.MapHub<NotificationHub>("/notificationhub");
 
         app.Run();
     }

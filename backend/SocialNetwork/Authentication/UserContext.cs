@@ -22,6 +22,7 @@ namespace FilmMatch.Authentication ;
 
         public Guid GetUserId()
         {
+            var claims = _httpContextAccessor.HttpContext.User.Claims.ToList();
             var id = _httpContextAccessor.HttpContext?
                 .User?
                 .Claims?
