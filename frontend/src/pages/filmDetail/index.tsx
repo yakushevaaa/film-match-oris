@@ -1,4 +1,4 @@
-import { InteractiveCard } from "@features/InteractiveCard";
+import { InteractiveCard } from "@/features/InteractiveList/InteractiveCard";
 import styles from "./index.module.scss";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
