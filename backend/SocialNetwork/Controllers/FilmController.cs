@@ -1,3 +1,4 @@
+using FilmMatch.Application.Features.Films.BookmarkFilm;
 using FilmMatch.Application.Features.Films.GetRecommendations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -197,32 +198,18 @@ namespace FilmMatch.Controllers
         [HttpPost("Bookmark/{filmId}")]
         public async Task<IActionResult> BookmarkFilm(Guid filmId)
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var exists = await _dbContext.UserBookmarkedFilm
-                .AnyAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (exists) return Ok("Already bookmarked");
-
-            _dbContext.UserBookmarkedFilm.Add(new UserBookmarkedFilm { FilmId = filmId, UserId = guidUserId });
-            await _dbContext.SaveChangesAsync();
+            var result = await _mediator.Send(new BookmarkFilmCommand(filmId));
+            if (!result.IsSuccessed)
+                return Ok(result.Message);
             return Ok();
         }
 
         [HttpDelete("Bookmark/{filmId}")]
         public async Task<IActionResult> UnbookmarkFilm(Guid filmId)
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var bookmark = await _dbContext.UserBookmarkedFilm
-                .FirstOrDefaultAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (bookmark == null) return Ok();
-
-            _dbContext.UserBookmarkedFilm.Remove(bookmark);
-            await _dbContext.SaveChangesAsync();
+            var result = await _mediator.Send(new UnbookmarkFilmCommand(filmId));
+            if (!result.IsSuccessed)
+                return Ok(result.Message);
             return Ok();
         }
 
