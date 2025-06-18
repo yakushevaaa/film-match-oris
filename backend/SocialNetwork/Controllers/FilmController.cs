@@ -1,5 +1,6 @@
 using FilmMatch.Application.Features.Films.BookmarkFilm;
 using FilmMatch.Application.Features.Films.GetRecommendations;
+using FilmMatch.Application.Features.Films.LikeFilm;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -132,35 +133,15 @@ namespace FilmMatch.Controllers
         }
 
         [HttpPost("Like/{filmId}")]
-        public async Task<IActionResult> LikeFilm(Guid filmId)
+        public async Task<IActionResult> ToggleLike(Guid filmId)
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var exists = await _dbContext.UserLikedFilm
-                .AnyAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (exists) return Ok("Already liked");
-
-            _dbContext.UserLikedFilm.Add(new UserLikedFilm { FilmId = filmId, UserId = guidUserId });
-            await _dbContext.SaveChangesAsync();
-            return Ok();
+            return Ok(await _mediator.Send(new ToggleLikeFilmCommand(filmId)));
         }
 
-        [HttpDelete("Like/{filmId}")]
-        public async Task<IActionResult> UnlikeFilm(Guid filmId)
+        [HttpGet("AllLikedFilms")]
+        public async Task<IActionResult> GetAllLikedFilms()
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var like = await _dbContext.UserLikedFilm
-                .FirstOrDefaultAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (like == null) return NotFound();
-
-            _dbContext.UserLikedFilm.Remove(like);
-            await _dbContext.SaveChangesAsync();
-            return Ok();
+            return Ok(await _mediator.Send(new GetLikedFilmsQuery()));
         }
 
         [HttpPost("Dislike/{filmId}")]
