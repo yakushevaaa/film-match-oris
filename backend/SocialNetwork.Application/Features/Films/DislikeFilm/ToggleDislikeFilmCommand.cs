@@ -4,10 +4,10 @@ using System;
 
 namespace FilmMatch.Application.Features.Films.DislikeFilm
 {
-    public class DislikeFilmCommand : IRequest<DislikeFilmResponse>
+    public class ToggleDislikeFilmCommand : IRequest<ToggleDislikeFilmResponse>
     {
         public Guid FilmId { get; set; }
-        public DislikeFilmCommand(Guid filmId)
+        public ToggleDislikeFilmCommand(Guid filmId)
         {
             FilmId = filmId;
         }

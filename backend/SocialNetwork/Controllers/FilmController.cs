@@ -1,4 +1,5 @@
 using FilmMatch.Application.Features.Films.BookmarkFilm;
+using FilmMatch.Application.Features.Films.DislikeFilm;
 using FilmMatch.Application.Features.Films.GetRecommendations;
 using FilmMatch.Application.Features.Films.LikeFilm;
 using Microsoft.AspNetCore.Authorization;
@@ -145,35 +146,15 @@ namespace FilmMatch.Controllers
         }
 
         [HttpPost("Dislike/{filmId}")]
-        public async Task<IActionResult> DislikeFilm(Guid filmId)
+        public async Task<IActionResult> ToggleDislike(Guid filmId)
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var exists = await _dbContext.UserDislikedFilm
-                .AnyAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (exists) return Ok("Already disliked");
-
-            _dbContext.UserDislikedFilm.Add(new UserDislikedFilm { FilmId = filmId, UserId = guidUserId });
-            await _dbContext.SaveChangesAsync();
-            return Ok();
+            return Ok(await _mediator.Send(new ToggleDislikeFilmCommand(filmId)));
         }
 
-        [HttpDelete("Dislike/{filmId}")]
-        public async Task<IActionResult> UndislikeFilm(Guid filmId)
+        [HttpGet("AllDislikedFilms")]
+        public async Task<IActionResult> GetAllDislikedFilms()
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var dislike = await _dbContext.UserDislikedFilm
-                .FirstOrDefaultAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (dislike == null) return Ok();
-
-            _dbContext.UserDislikedFilm.Remove(dislike);
-            await _dbContext.SaveChangesAsync();
-            return Ok();
+            return Ok(await _mediator.Send(new GetDislikedFilmsQuery()));
         }
 
         [HttpPost("Bookmark/{filmId}")]
