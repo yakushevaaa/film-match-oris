@@ -17,6 +17,7 @@ public static class IServiceCollectionExtensions
         // services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<IFriendsService, FriendService>();
         services.AddHttpContextAccessor();
         services.AddSignalR();
         services.AddScoped<INotificationService, NotificationService>();

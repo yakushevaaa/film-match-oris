@@ -1,5 +1,6 @@
 using FilmMatch.Application.Interfaces;
 using FilmMatch.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 
 namespace FilmMatch.Infrastructure.Services
