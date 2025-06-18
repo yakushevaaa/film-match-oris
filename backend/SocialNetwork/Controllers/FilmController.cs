@@ -59,7 +59,7 @@ namespace FilmMatch.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] Film film)
         {
             if (!ModelState.IsValid)
@@ -109,7 +109,7 @@ namespace FilmMatch.Controllers
         }
 
         [HttpGet("GetAllFilms")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetAllFilms()
         {
             var films = await _dbContext.Films

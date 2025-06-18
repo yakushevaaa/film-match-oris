@@ -60,3 +60,23 @@
     height: 28px;
   }
 }
+
+.swipeRight {
+  animation: swipeRight 0.4s forwards;
+}
+.swipeLeft {
+  animation: swipeLeft 0.4s forwards;
+}
+
+@keyframes swipeRight {
+  to {
+    transform: translateX(120vw) rotate(15deg);
+    opacity: 0;
+  }
+}
+@keyframes swipeLeft {
+  to {
+    transform: translateX(-120vw) rotate(-15deg);
+    opacity: 0;
+  }
+}

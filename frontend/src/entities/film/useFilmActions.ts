@@ -1,7 +1,7 @@
 import { axiosSettings } from "@shared/api/axiosSettings";
 
 export const useFilmActions = () => {
-  const handleLike = async (id: number) => {
+  const handleLike = async (id: string | number) => {
     console.log('Клик по лайку', id);
     try {
       await axiosSettings.post(`/Film/Like/${id}`);
@@ -11,7 +11,7 @@ export const useFilmActions = () => {
     }
   };
 
-  const handleDislike = async (id: number) => {
+  const handleDislike = async (id: string | number) => {
     console.log('Клик по дизлайку', id);
     try {
       await axiosSettings.post(`/Film/Dislike/${id}`);
@@ -21,7 +21,7 @@ export const useFilmActions = () => {
     }
   };
 
-  const handleFavorite = async (id: number) => {
+  const handleFavorite = async (id: string | number) => {
     console.log('Клик по закладке', id);
     try {
       await axiosSettings.post(`/Film/Bookmark/${id}`);

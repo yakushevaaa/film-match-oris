@@ -71,7 +71,7 @@ export const FilmsList: FC<FilmsListProps> = ({
     <ul className={cn(styles.list, className)}>
       {films.map((item) => (
         <li key={item.id} className={styles.list__item}>
-          <Link to={`${item.id}`}>
+          <Link to={`/films/${item.id}`}>
             <FilmsListItem
               // onLike={handleLike}
               // onDislike={handleDislike}
