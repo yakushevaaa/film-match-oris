@@ -257,5 +257,12 @@ namespace FilmMatch.Controllers
             var result = await _mediator.Send(new GetRecommendationsQuery());
             return Ok(result);
         }
+
+        [HttpGet("Bookmarked")]
+        public async Task<IActionResult> GetBookmarkedFilms()
+        {
+            var result = await _mediator.Send(new GetBookmarkedFilmsQuery());
+            return Ok(result.Films);
+        }
     }
 } 
