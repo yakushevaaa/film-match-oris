@@ -2,7 +2,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using FilmMatch.Application.Extensions;
 using FilmMatch.Application.Interfaces;
+using FilmMatch.Authentication;
 using FilmMatch.Infrastructure.Extensions;
+using FilmMatch.Infrastructure.Services;
 using FilmMatch.Persistence;
 using FilmMatch.Persistence.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,6 +25,7 @@ public class Program
         builder.Services.AddPersistenceLayer(builder.Configuration);
         builder.Services.AddInfrastructureLayer();
         builder.Services.AddApplicationLayer();
+        builder.Services.AddUserContext();
         var configuration = builder.Configuration;
         builder.Services.AddSingleton(configuration);
         
@@ -117,7 +120,7 @@ public class Program
         app.UseCors();
         app.UseAuthentication();
         app.UseAuthorization();
-        
+        app.UseStaticFiles();
         // Настройка статических файлов
         app.UseStaticFiles(new StaticFileOptions
         {
@@ -126,6 +129,7 @@ public class Program
         });
 
         app.MapControllers();
+        app.MapHub<NotificationHub>("/notificationhub");
 
         app.Run();
     }

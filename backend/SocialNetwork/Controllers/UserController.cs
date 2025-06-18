@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using FilmMatch.Domain.Constants;
 using System.Security.Claims;
+using FilmMatch.Application.Features.Users.Queries.GetUsernames;
 using FilmMatch.Domain.Entities;
 using FilmMatch.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -145,5 +146,13 @@ namespace FilmMatch.Controllers ;
                 return BadRequest(result.Errors);
 
             return Ok();
+        }
+        
+        [HttpGet("usernames")]
+        [Authorize]
+        public async Task<IActionResult> GetUsernames([FromQuery]string? query)
+        {
+            var result = await _mediator.Send(new GetUsernamesQuery(query));
+            return Ok(result);
         }
     }

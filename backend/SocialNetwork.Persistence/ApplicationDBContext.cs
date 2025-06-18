@@ -16,6 +16,7 @@ namespace FilmMatch.Persistence
         public DbSet<UserLikedFilm> UserLikedFilm { get; set; }
         public DbSet<UserDislikedFilm> UserDislikedFilm { get; set; }
         public DbSet<UserBookmarkedFilm> UserBookmarkedFilm { get; set; }
+        public DbSet<UserFriend> UserFriends { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
