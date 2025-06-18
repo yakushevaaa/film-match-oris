@@ -25,6 +25,7 @@ namespace FilmMatch.Infrastructure.Services
             
             var friendship = new UserFriend
             {
+                Id = Guid.NewGuid(),
                 UserId = _userContext.GetUserId(),
                 FriendId = friendId,
             };

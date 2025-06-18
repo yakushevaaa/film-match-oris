@@ -10,6 +10,8 @@ namespace FilmMatch.Domain.Entities
 
         public bool HasSubscription { get; set; }
 
+        public string Email { get; set; } = String.Empty;
+
         // Many-to-many self-reference: друзья
         public ICollection<UserFriend> Friends { get; set; } = new List<UserFriend>();
         public ICollection<UserFriend> FriendOf { get; set; } = new List<UserFriend>();
