@@ -8,6 +8,7 @@ import styles from "./index.module.scss";
 import { registerUser } from "./api/registerUserApi";
 import { loginUser } from "./api/loginUserApi";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/shared/lib/authProvider";
 
 interface FormProps {
   type: "register" | "login";
@@ -24,6 +25,7 @@ interface FormValues {
 export const AuthForm: FC<FormProps> = ({ type }) => {
   const isRegister = type === "register";
   const navigate = useNavigate();
+  const { setToken } = useAuth();
 
   const [form, setForm] = useState<FormValues>({
     name: "",
@@ -83,6 +85,7 @@ export const AuthForm: FC<FormProps> = ({ type }) => {
             setErrors({ password: loginError });
             setSuccessMessage(null);
           } else {
+            setToken(localStorage.getItem("token"));
             setSuccessMessage("Успешно");
             setTimeout(() => navigate("/"), 1000);
           }
@@ -97,6 +100,7 @@ export const AuthForm: FC<FormProps> = ({ type }) => {
           setErrors({ password: errorMessage });
           setSuccessMessage(null);
         } else {
+          setToken(localStorage.getItem("token"));
           setSuccessMessage("Успешно");
           setTimeout(() => navigate("/"), 1000);
         }

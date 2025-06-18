@@ -71,7 +71,7 @@ namespace FilmMatch.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
+        [Authorize]
         public async Task<IActionResult> Update(Guid id, [FromBody] Film film)
         {
             if (id != film.Id)
