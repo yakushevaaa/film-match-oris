@@ -1,3 +1,5 @@
+// Важно: эндпоинт /User/me должен возвращать 200 если пользователь авторизован, иначе 401
+import axios from "axios";
 import {
   createContext,
   useContext,
@@ -6,9 +8,8 @@ import {
   useState,
   ReactNode,
 } from "react";
-import axios from "axios";
 
-export interface AuthContextType {
+interface AuthContextType {
   token: string | null;
   setToken: (token: string | null) => void;
 }
@@ -20,9 +21,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [token, setToken_] = useState<string | null>(
-    localStorage.getItem("token")
-  );
+  const [token, setToken_] = useState<string | null>(localStorage.getItem("token"));
 
   const setToken = (newToken: string | null) => {
     setToken_(newToken);
@@ -30,7 +29,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     if (token) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       localStorage.setItem("token", token);
     } else {
       delete axios.defaults.headers.common["Authorization"];
@@ -45,7 +44,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   );
 };
 
-export const useAuth = (): AuthContextType => {
+export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth должен использоваться внутри AuthProvider");

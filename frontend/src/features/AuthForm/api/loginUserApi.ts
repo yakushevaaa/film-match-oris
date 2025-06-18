@@ -11,7 +11,7 @@ export const loginUser = async (data: LoginRequest): Promise<string | null> => {
     const response = await axiosSettings.post("/User/login", data);
     const token = response.data.token;
     if (token) {
-      document.cookie = `token=${token}; path=/; max-age=3600`;
+      localStorage.setItem("token", token);
     }
     return null;
   } catch (error: unknown) {
