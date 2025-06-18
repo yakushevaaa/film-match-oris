@@ -1,9 +1,11 @@
+using FilmMatch.Application.Features.Films.GetRecommendations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FilmMatch.Domain.Constants;
 using FilmMatch.Domain.Entities;
 using FilmMatch.Application.Interfaces;
+using MediatR;
 
 namespace FilmMatch.Controllers
 {
@@ -13,10 +15,12 @@ namespace FilmMatch.Controllers
     public class FilmController : ControllerBase
     {
         private readonly IDbContext _dbContext;
+        private readonly IMediator _mediator;
 
-        public FilmController(IDbContext dbContext)
+        public FilmController(IDbContext dbContext, IMediator mediator)
         {
             _dbContext = dbContext;
+            _mediator = mediator;
         }
 
         [HttpGet]
@@ -257,6 +261,13 @@ namespace FilmMatch.Controllers
                 }
             });
 
+            return Ok(result);
+        }
+
+        [HttpGet("recommendations")]
+        public async Task<IActionResult> GetRecommendations()
+        {
+            var result = await _mediator.Send(new GetRecommendationsQuery());
             return Ok(result);
         }
     }
