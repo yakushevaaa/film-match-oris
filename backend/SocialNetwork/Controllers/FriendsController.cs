@@ -1,10 +1,12 @@
 using FilmMatch.Application.Features.Friends.GetAllPossibleFriends;
 using FilmMatch.Application.Features.Friends.GetAllUserFriends;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilmMatch.Controllers
 {
+    [Authorize]
     public class FriendsController(IMediator mediator) : Controller
     {
         [HttpGet("AllUserFriends")]
