@@ -3,8 +3,8 @@ import Modal from "react-modal";
 import styles from "./index.module.scss";
 import { axiosSettings } from "@shared/api/axiosSettings";
 import { useNotificationHub } from "@shared/lib/hooks/useNotificationHub";
+import { useNavigate } from "react-router-dom";
 
-// Настройка корневого элемента для модалки (один раз на приложение)
 if (typeof window !== "undefined") {
   Modal.setAppElement("#root");
 }
@@ -25,6 +25,7 @@ export const AddFriendModal = ({ isOpen, onClose }: AddFriendModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = { user: { id: localStorage.getItem("userId") } }; // или используйте ваш useAuth
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isOpen) return;

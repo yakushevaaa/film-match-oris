@@ -17,6 +17,7 @@ import { FilmDetail } from "@/pages/filmDetail";
 import { Admin } from "@/pages/admin";
 import { Profile } from "@/pages/profile";
 import { UserFriends } from "@/pages/userFriends";
+import { FriendProfile } from "@/pages/friendProfile";
 
 const App: FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: FC = () => {
             <Route path="/" element={<MainPage />} />
             <Route path="films" element={<FilmPage />} />
             <Route path="films/:id" element={<FilmDetail />} />
+            <Route path="profile/friends/:id" element={<FriendProfile/>}/>
           </Route>
 
           <Route path="/auth" element={<AuthLayout />}>

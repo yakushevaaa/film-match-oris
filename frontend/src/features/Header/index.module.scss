@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  position: fixed;
+  /* position: fixed; */
 
   &__logo {
     width: 90px;
@@ -22,4 +22,8 @@
     border-radius: 38px;
     padding: 10px 16px;
   }
+}
+
+.headerDarkBg {
+  background: #1E1E1E;
 }
