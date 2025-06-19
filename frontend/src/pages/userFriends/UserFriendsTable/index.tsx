@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { axiosSettings } from "@shared/api/axiosSettings";
 import { Search } from "@/shared/components/ui/Search";
+import { useNavigate } from "react-router-dom";
 
 interface Friend {
   id: string;
@@ -15,6 +16,7 @@ export const UserFriendsTable = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -57,7 +59,12 @@ export const UserFriendsTable = () => {
             {filteredFriends.length > 0 ? (
               filteredFriends.map((friend) => (
                 <tr key={friend.id}>
-                  <td>{friend.name}</td>
+                  <td
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/profile/friends/${friend.id}`)}
+                  >
+                    {friend.name}
+                  </td>
                   <td>{friend.email}</td>
                 </tr>
               ))

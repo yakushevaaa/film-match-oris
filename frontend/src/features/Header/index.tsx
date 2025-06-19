@@ -15,7 +15,12 @@ export const Header = () => {
   const navLinks = matchedPath ? NAV_CONFIG[matchedPath] : [];
 
   return (
-    <header className={styles.header}>
+    <header
+      className={cn(
+        styles.header,
+        location.pathname === "/" && styles.headerDarkBg
+      )}
+    >
       <img className={styles.header__logo} src={logoIcon} />
 
       {navLinks.length > 0 && (

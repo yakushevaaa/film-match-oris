@@ -19,54 +19,6 @@ export const FilmsList: FC<FilmsListProps> = ({
 }) => {
   const { handleLike, handleDislike, handleFavorite } = useFilmActions();
 
-  const filmsData: Film[] = [
-    {
-      id: 1,
-      title: "Film Name",
-      releaseDate: "2022",
-      imageUrl: "/images/film-img.png",
-      descriptionShort: "Описание",
-      descriptionLong: "Длинное описание",
-      categoryName: "Комедия",
-    },
-    {
-      id: 2,
-      title: "Film Name",
-      releaseDate: "2022",
-      imageUrl: "/images/film-img.png",
-      descriptionShort: "Описание",
-      descriptionLong: "Длинное описание",
-      categoryName: "Комедия",
-    },
-    {
-      id: 3,
-      title: "Film Name",
-      releaseDate: "2022",
-      imageUrl: "/images/film-img.png",
-      descriptionShort: "Описание",
-      descriptionLong: "Длинное описание",
-      categoryName: "Комедия",
-    },
-    {
-      id: 4,
-      title: "Film Name",
-      releaseDate: "2022",
-      imageUrl: "/images/film-img.png",
-      descriptionShort: "Описание",
-      descriptionLong: "Длинное описание",
-      categoryName: "Комедия",
-    },
-    {
-      id: 5,
-      title: "Film Name",
-      releaseDate: "2022",
-      imageUrl: "/images/film-img.png",
-      descriptionShort: "Описание",
-      descriptionLong: "Длинное описание",
-      categoryName: "Комедия",
-    },
-  ];
-
   return (
     <ul className={cn(styles.list, className)}>
       {films.map((item) => (
