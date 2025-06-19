@@ -21,7 +21,7 @@ namespace FilmMatch.Application.Features.Friends.GetAllUserFriends
             var userId = _userContext.GetUserId();
             var friends = await _dbContext.UserFriends
                 .Where(f => f.FriendId == userId || f.UserId == userId)
-                .Select(x => new GetAllUserFriendsFriendDto
+                .Select(x => new GetAllPossibleFriendsUserDto
                 {
                     Id = x.Id,
                     FriendId = x.UserId != userId ? x.UserId : x.FriendId,

@@ -167,52 +167,14 @@ namespace FilmMatch.Controllers
         }
 
         [HttpDelete("Bookmark/{filmId}")]
-        public async Task<IActionResult> UnbookmarkFilm(Guid filmId)
+        public async Task<IActionResult> UnBookmarkFilm(Guid filmId)
         {
             var result = await _mediator.Send(new UnbookmarkFilmCommand(filmId));
             if (!result.IsSuccessed)
                 return Ok(result.Message);
             return Ok();
         }
-
-        [HttpGet("LikedBy/{userId}")]
-        public async Task<IActionResult> GetLikedFilmsByUser(string userId)
-        {
-            Guid guidUserId;
-            if (userId == "me")
-            {
-                var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-                if (currentUserId == null) return Unauthorized();
-                guidUserId = Guid.Parse(currentUserId);
-            }
-            else
-            {
-                if (!Guid.TryParse(userId, out guidUserId))
-                    return BadRequest("Invalid userId");
-            }
-
-            var likedFilms = await _dbContext.UserLikedFilm
-                .Where(x => x.UserId == guidUserId)
-                .Include(x => x.Film).ThenInclude(f => f.Category)
-                .Select(x => x.Film)
-                .ToListAsync();
-
-            var result = likedFilms.Select(f => new {
-                f.Id,
-                f.Title,
-                f.ReleaseDate,
-                f.ImageUrl,
-                f.LongDescription,
-                f.ShortDescription,
-                Category = f.Category == null ? null : new {
-                    f.Category.Id,
-                    f.Category.Name
-                }
-            });
-
-            return Ok(result);
-        }
-
+        
         [HttpGet("recommendations")]
         public async Task<IActionResult> GetRecommendations()
         {
