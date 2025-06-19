@@ -65,7 +65,7 @@ namespace FilmMatch.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        // [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
+        [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
         public async Task<IActionResult> Create([FromForm] CreateFilmCommand command)
         {
             if (!ModelState.IsValid)
@@ -112,7 +112,7 @@ namespace FilmMatch.Controllers
         }
 
         [HttpGet("GetAllFilms")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetAllFilms()
         {
             var films = await _dbContext.Films

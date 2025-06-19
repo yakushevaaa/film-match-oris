@@ -16,6 +16,7 @@ import { ProtectedRoute } from "@/shared/lib/ProtectedRoutes";
 import { FilmDetail } from "@/pages/filmDetail";
 import { Admin } from "@/pages/admin";
 import { Profile } from "@/pages/profile";
+import { UserFriends } from "@/pages/userFriends";
 
 const App: FC = () => {
   return (
@@ -37,6 +38,7 @@ const App: FC = () => {
             <Route element={<MainLayout />}>
               <Route path="admin" element={<Admin />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="profile/friends" element={<UserFriends/>}></Route>
             </Route>
           </Route>
 
