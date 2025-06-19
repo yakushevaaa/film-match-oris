@@ -3,7 +3,6 @@ using FilmMatch.Application.Contracts.Requests.UserRequests.LoginUser;
 using FilmMatch.Application.Interfaces;
 using FilmMatch.Application.Interfaces.Services;
 using MediatR;
-using ProFSB.Application.Interfaces.Services;
 
 namespace FilmMatch.Application.Features.Users.Queries.LoginUser
 {

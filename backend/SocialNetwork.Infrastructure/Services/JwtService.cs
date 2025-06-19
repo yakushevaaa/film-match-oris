@@ -1,10 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using FilmMatch.Application.Interfaces.Services;
 using FilmMatch.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using ProFSB.Application.Interfaces.Services;
 
 namespace FilmMatch.Infrastructure.Services ;
 
@@ -23,7 +23,8 @@ namespace FilmMatch.Infrastructure.Services ;
             
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Name)
             };
             if (roles != null)
             {

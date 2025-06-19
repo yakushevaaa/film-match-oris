@@ -89,4 +89,10 @@ namespace FilmMatch.Infrastructure.Services ;
 
             return await _userManager.AddToRoleAsync(user, FilmMatch.Domain.Constants.RoleConstants.Admin);
         }
+
+        public async Task<IdentityUser<Guid>> GetUserByIdAsync(Guid id)
+        {
+            return await _userManager.FindByIdAsync(id.ToString()) 
+                   ?? throw new InvalidOperationException("User not found");
+        }
     }

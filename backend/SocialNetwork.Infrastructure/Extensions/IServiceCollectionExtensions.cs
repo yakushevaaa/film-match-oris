@@ -1,7 +1,6 @@
 ﻿using FilmMatch.Application.Interfaces.Services;
 using FilmMatch.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
-using ProFSB.Application.Interfaces.Services;
 
 namespace FilmMatch.Infrastructure.Extensions;
 
