@@ -11,6 +11,7 @@ using FilmMatch.Domain.Constants;
 using FilmMatch.Domain.Entities;
 using FilmMatch.Application.Interfaces;
 using MediatR;
+using FilmMatch.Application.Features.Films.GetAllFilms;
 
 namespace FilmMatch.Controllers
 {
@@ -115,22 +116,8 @@ namespace FilmMatch.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllFilms()
         {
-            var films = await _dbContext.Films
-                .Include(f => f.Category)
-                .Select(f => new {
-                    f.Id,
-                    f.Title,
-                    f.ReleaseDate,
-                    f.ImageUrl,
-                    f.LongDescription,
-                    f.ShortDescription,
-                    Category = f.Category == null ? null : new {
-                        f.Category.Id,
-                        f.Category.Name
-                    }
-                })
-                .ToListAsync();
-            return Ok(films);
+            var result = await _mediator.Send(new GetAllFilmsQuery());
+            return Ok(result.Films);
         }
 
         [HttpPost("Like/{filmId}")]
