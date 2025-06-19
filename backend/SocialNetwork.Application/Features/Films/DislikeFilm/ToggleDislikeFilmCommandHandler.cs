@@ -28,7 +28,13 @@ namespace FilmMatch.Application.Features.Films.DislikeFilm
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return new ToggleDislikeFilmResponse { IsDisliked = false, Message = "Dislike removed" };
             }
-            _dbContext.UserDislikedFilm.Add(new UserDislikedFilm { FilmId = request.FilmId, UserId = userId });
+            _dbContext.UserDislikedFilm.Add(
+                new UserDislikedFilm
+                {
+                    Id = Guid.NewGuid(),
+                    FilmId = request.FilmId,
+                    UserId = userId
+                });
             await _dbContext.SaveChangesAsync(cancellationToken);
             return new ToggleDislikeFilmResponse { IsDisliked = true, Message = "Film disliked" };
         }

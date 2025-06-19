@@ -4,11 +4,11 @@ namespace FilmMatch.Application.Contracts.Responses.Friends.GetAllUserFriends
 {
     public class GetAllUserFriendsResponse
     {
-        public GetAllUserFriendsResponse(List<GetAllUserFriendsFriendDto> friends)
+        public GetAllUserFriendsResponse(List<GetAllPossibleFriendsUserDto> friends)
         {
             Friends = friends;
         }
         
-        public List<GetAllUserFriendsFriendDto> Friends { get; set; } = new();
+        public List<GetAllPossibleFriendsUserDto> Friends { get; set; } = new();
     }
 }

@@ -1,0 +1,13 @@
+namespace FilmMatch.Application.Contracts.Responses.Films.GetAllFilms
+{
+    public class GetAllFilmsDto
+    {
+        public Guid Id { get; set; }
+        public string Title { get; set; }
+        public DateTime? ReleaseDate { get; set; }
+        public string? ImageUrl { get; set; }
+        public string LongDescription { get; set; }
+        public string ShortDescription { get; set; }
+        public GetAllFilmsCategoryDto? Category { get; set; }
+    }
+} 

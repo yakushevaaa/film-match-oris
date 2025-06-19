@@ -12,6 +12,7 @@ using FilmMatch.Application.Features.Users.UserToAdmin;
 using FilmMatch.Domain.Entities;
 using FilmMatch.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using FilmMatch.Application.Features.Users.Queries.GetUsernameById;
 
 namespace FilmMatch.Controllers ;
 
@@ -83,6 +84,7 @@ namespace FilmMatch.Controllers ;
             });
         }
 
+        // ГОВНО
         [HttpGet("GetAllUsers")]
         [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
         public async Task<IActionResult> GetAllUsers()
@@ -162,5 +164,15 @@ namespace FilmMatch.Controllers ;
         public async Task<IActionResult> UserToAdmin(Guid userId)
         {
             return Ok(await _mediator.Send(new UserToAdminCommand(userId)));
+        }
+
+        [Authorize]
+        [HttpGet("UsernameById/{userId}")]
+        public async Task<IActionResult> GetUsernameById(Guid userId)
+        {
+            var result = await _mediator.Send(new GetUsernameByIdQuery(userId));
+            if (result == null)
+                return NotFound();
+            return Ok(result);
         }
     }

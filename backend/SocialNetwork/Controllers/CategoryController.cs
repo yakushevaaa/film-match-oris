@@ -1,5 +1,8 @@
-﻿using FilmMatch.Application.Interfaces;
+﻿using FilmMatch.Application.Contracts.Responses.Categories.GetAllCategories;
+using FilmMatch.Application.Features.Categories.GetAllCategories;
+using FilmMatch.Application.Interfaces;
 using FilmMatch.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,32 +11,14 @@ namespace FilmMatch.Controllers
     [ApiController]
     [Route("[controller]")]
     // [Authorize]
-    public class CategoryController : ControllerBase
+    public class CategoryController(IMediator mediator) : ControllerBase
     {
-        private readonly IDbContext _dbContext;
-
-        public CategoryController(IDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         [HttpGet("GetCategory")]
-        public ActionResult<IEnumerable<Category>> GetAll()
+        public async Task<ActionResult<IEnumerable<GetAllCategoriesDto>>> GetAllCategories()
         {
-            var categories = _dbContext.Categories.ToList();
-            return Ok(categories);
+            var result = await mediator.Send(new GetAllCategoriesQuery());
+            return Ok(result.Categories);
         }
-
-
-        //public ActionResult<IEnumerable<Category>> GetAll()
-        //=> Ok(_dbContext.Cars.Select(x => new CarVm(x)));
-
-        //[HttpGet("GetCarById/{id:int}")]
-        //public Car? GetById([FromRoute] int id)
-        //    => _dbContext.Cars.FirstOrDefault(x => x.Id == id);
-
-
-
     }
 
 }
