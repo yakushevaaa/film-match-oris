@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { axiosSettings } from "@shared/api/axiosSettings";
+import { Search } from "@/shared/components/ui/Search";
 
 interface Friend {
   id: string;
@@ -33,9 +34,9 @@ export const UserFriendsTable = () => {
 
   return (
     <div className={styles.tableWrapper}>
-      <input
+      <Search
         type="text"
-        placeholder="Поиск по имени или почте"
+        placeholder="Поиск друга"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className={styles.searchInput}
