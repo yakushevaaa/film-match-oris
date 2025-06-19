@@ -1,0 +1,33 @@
+.content {
+  padding: 0 100px;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.button {
+  background-color: var(--accent-secondary-color);
+  color: var(--text-color-light);
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.buttonAccent {
+  background-color: var(--accent-color);
+  color: var(--text-color-light);
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
