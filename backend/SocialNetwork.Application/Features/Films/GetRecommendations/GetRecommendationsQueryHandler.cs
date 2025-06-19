@@ -22,6 +22,7 @@ namespace FilmMatch.Application.Features.Films.GetRecommendations
             var likedCategories = _dbContext.UserLikedFilm.Where(x => x.UserId == userId)
                 .Select(x => x.Film!.CategoryId).Distinct().Take(3);
 
+            var test = likedCategories.ToList();
             if (!likedCategories.Any())
             {
                 return new GetRecommendationsResponse
@@ -29,17 +30,24 @@ namespace FilmMatch.Application.Features.Films.GetRecommendations
                     IsEverythingReacted = false
                 };
             }
+            
+            var likedFilms = await _dbContext.UserLikedFilm
+                .Where(z => z.UserId == userId)
+                .Select(z => z.FilmId)
+                .ToListAsync(cancellationToken);
+            
+            var dislikedFilms = await _dbContext.UserDislikedFilm
+                .Where(z => z.UserId == userId)
+                .Select(z => z.FilmId)
+                .ToListAsync(cancellationToken: cancellationToken);
 
+            var test2 = await _dbContext.Films
+                .Where(x => likedCategories.Contains(x.CategoryId)).ToListAsync(cancellationToken);
+            
             var recommendations = await _dbContext.Films
                 .Where(x => likedCategories.Contains(x.CategoryId)
-                && !_dbContext.UserLikedFilm
-                    .Where(z => z.UserId == userId)
-                    .Select(y => y.FilmId)
-                    .Contains(x.Id)
-                && !_dbContext.UserDislikedFilm
-                    .Where(z => z.UserId == userId)
-                    .Select(y => y.FilmId)
-                    .Contains(x.Id))
+                            && !likedFilms.Contains(x.Id)
+                            && !dislikedFilms.Contains(x.Id))
                 .Select(x => new GetRecommendationsResponseItem
                 {
                     Id = x.Id,

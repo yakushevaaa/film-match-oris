@@ -1,5 +1,7 @@
-﻿using FilmMatch.Application.Interfaces;
+﻿using System.Linq.Expressions;
+using FilmMatch.Application.Interfaces;
 using FilmMatch.Domain.Entities;
+using FilmMatch.Domain.Entities.Common;
 using FilmMatch.Persistence.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,23 @@ namespace FilmMatch.Persistence
             modelBuilder.ApplyConfiguration(new UserDislikedFilmConfiguration());
             modelBuilder.ApplyConfiguration(new UserLikedFilmConfiguration());
             modelBuilder.ApplyConfiguration(new UserFriendConfiguration());
+            
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(BaseAuditableEntity).IsAssignableFrom(entityType.ClrType))
+                {
+                    var parameter = Expression.Parameter(entityType.ClrType);
+                    var body = Expression.Equal(
+                        Expression.Property(parameter, nameof(BaseAuditableEntity.IsDeleted)),
+                        Expression.Constant(false)
+                        );
+
+                    var lambda = Expression.Lambda(body, parameter);
+
+                    modelBuilder.Entity(entityType.ClrType)
+                        .HasQueryFilter(lambda);
+                }
+            }
         }
         
     }

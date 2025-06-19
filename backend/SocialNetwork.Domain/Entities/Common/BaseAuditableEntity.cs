@@ -1,7 +1,6 @@
-﻿using FilmMatch.Domain.Entities.Common;
-using FilmMatch.Domain.Entities.Common.Interfaces;
+﻿using FilmMatch.Domain.Entities.Common.Interfaces;
 
-namespace Core.Entities.Common;
+namespace FilmMatch.Domain.Entities.Common;
 
 public abstract class BaseAuditableEntity : BaseEntity, IAuditableEntity
 {
@@ -12,4 +11,6 @@ public abstract class BaseAuditableEntity : BaseEntity, IAuditableEntity
     public int? UpdatedBy { get; set; }
     
     public DateTime? UpdatedDate { get; set; }
+    
+    public bool IsDeleted { get; set; } = false;
 }
