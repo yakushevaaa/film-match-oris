@@ -20,25 +20,19 @@ namespace S3
         {
             var bucketName = _s3Options.BucketName;
 
-            try
+            bool exists = await _minioClient.BucketExistsAsync(
+                new BucketExistsArgs().WithBucket(bucketName), cancellationToken);
+
+            if (!exists)
             {
+                await _minioClient.MakeBucketAsync(
+                    new MakeBucketArgs().WithBucket(bucketName), cancellationToken);
 
-                var exists = false;
-                if (!exists)
-                {
-                    await _minioClient.MakeBucketAsync(
-                        new MakeBucketArgs().WithBucket(bucketName), cancellationToken);
-
-                    Console.WriteLine($"Bucket '{bucketName}' created successfully.");
-                }
-                else
-                {
-                    Console.WriteLine($"Bucket '{bucketName}' already exists.");
-                }
+                Console.WriteLine($"Bucket '{bucketName}' created successfully.");
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Error creating bucket: {ex.Message}");
+                Console.WriteLine($"Bucket '{bucketName}' already exists.");
             }
         }
 

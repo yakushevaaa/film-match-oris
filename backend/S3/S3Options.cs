@@ -23,6 +23,5 @@ namespace S3
         public string BucketName { get; set; } = default!;
         
         public string Prefix { get; set; } = "https";
-        public int Port { get; set; } = 9000;
     }
 }

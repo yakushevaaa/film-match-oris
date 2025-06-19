@@ -47,7 +47,7 @@ namespace S3
             await _client.PutObjectAsync(putObjectArgs, cancellationToken);
 
             // Формируем публичную ссылку (если хранилище публичное)
-            var endpoint = $"{_s3Options.Value.ServiceUrl}:{_s3Options.Value.Port}";
+            var endpoint = _s3Options.Value.ServiceUrl.TrimEnd('/');
             var url = $"{_s3Options.Value.Prefix}://{endpoint}/{bucketName}/{fileName}";
 
             return url;

@@ -34,7 +34,6 @@ namespace S3
                 _.ServiceUrl = options.ServiceUrl;
                 _.BucketName = options.BucketName;
                 _.Prefix = options.Prefix;
-                _.Port = options.Port;
             });
             
             services.AddSingleton<IS3Service, S3Service>();
@@ -43,9 +42,8 @@ namespace S3
                 var s3Options = provider.GetRequiredService<IOptions<S3Options>>().Value;
 
                 var minioClient = new MinioClient()
-                    .WithEndpoint(s3Options.ServiceUrl, s3Options.Port)
+                    .WithEndpoint(s3Options.ServiceUrl)
                     .WithCredentials(s3Options.AccessKey, s3Options.SecretKey)
-                    .WithSSL(false)
                     .Build();
 
                 return minioClient;
