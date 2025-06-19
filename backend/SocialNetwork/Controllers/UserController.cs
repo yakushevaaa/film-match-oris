@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using FilmMatch.Domain.Constants;
 using System.Security.Claims;
 using FilmMatch.Application.Features.Users.Queries.GetUsernames;
+using FilmMatch.Application.Features.Users.UserToAdmin;
 using FilmMatch.Domain.Entities;
 using FilmMatch.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -154,5 +155,12 @@ namespace FilmMatch.Controllers ;
         {
             var result = await _mediator.Send(new GetUsernamesQuery(query));
             return Ok(result);
+        }
+
+        [HttpPut("UserToAdmin")]
+        [Authorize(Roles = RoleConstants.God)]
+        public async Task<IActionResult> UserToAdmin(Guid userId)
+        {
+            return Ok(await _mediator.Send(new UserToAdminCommand(userId)));
         }
     }

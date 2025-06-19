@@ -35,12 +35,12 @@ namespace FilmMatch.Application.Features.Users.Commands.RegisterUser
             };
 
             var result = await _userServiceIdentity.RegisterUserAsync(user, request.Password);
-            await _userServiceIdentity.AddRoleAsync(user, RoleConstants.User);
 
             if (!result.Succeeded)
                 // Не создаем доп. записи, если регистрация неуспешна
                 return new RegisterUserResponse(result);
 
+            await _userServiceIdentity.AddRoleAsync(user, RoleConstants.User);
             var biznesUserId = Guid.NewGuid();
 
             _dbContext.Users.Add(new User

@@ -1,7 +1,6 @@
 using FilmMatch.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 
-namespace ProFSB.Application.Interfaces.Services ;
+namespace FilmMatch.Application.Interfaces.Services ;
 
     public interface IJwtService
     {
