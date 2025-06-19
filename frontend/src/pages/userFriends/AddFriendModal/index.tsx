@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import styles from "./index.module.scss";
 import { axiosSettings } from "@shared/api/axiosSettings";
+import { useNotificationHub } from "@shared/lib/hooks/useNotificationHub";
 
 // Настройка корневого элемента для модалки (один раз на приложение)
 if (typeof window !== "undefined") {
@@ -23,6 +24,7 @@ export const AddFriendModal = ({ isOpen, onClose }: AddFriendModalProps) => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { user } = { user: { id: localStorage.getItem("userId") } }; // или используйте ваш useAuth
 
   useEffect(() => {
     if (!isOpen) return;
@@ -35,9 +37,28 @@ export const AddFriendModal = ({ isOpen, onClose }: AddFriendModalProps) => {
       .finally(() => setLoading(false));
   }, [isOpen]);
 
+  if (user?.id) {
+    useNotificationHub(user.id, (data) => {
+      alert("Вам пришло новое уведомление!");
+    });
+  }
+
   const filteredUsers = users.filter((user) =>
     user.username.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleAddFriend = async (receiverId: string) => {
+    try {
+      await axiosSettings.post(
+        "http://localhost:5210/friendRequest",
+        null,
+        { params: { receiverId } }
+      );
+      alert("Запрос отправлен!");
+    } catch (error) {
+      alert("Ошибка при отправке запроса в друзья");
+    }
+  };
 
   return (
     <Modal
@@ -69,7 +90,12 @@ export const AddFriendModal = ({ isOpen, onClose }: AddFriendModalProps) => {
             filteredUsers.map((user) => (
               <li key={user.id} className={styles.userItem}>
                 <span className={styles.username}>{user.username}</span>
-                <button className={styles.addButton}>Добавить в друзья</button>
+                <button
+                  className={styles.addButton}
+                  onClick={() => handleAddFriend(user.id)}
+                >
+                  Добавить в друзья
+                </button>
               </li>
             ))
           ) : (
