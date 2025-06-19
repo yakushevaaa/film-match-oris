@@ -20,4 +20,14 @@ export function getUserRole(token: string | null): string | null {
   } catch {
     return null;
   }
+}
+
+export function getUsernameFromToken(token: string | null): string | null {
+  if (!token) return null;
+  try {
+    const decoded: any = jwtDecode(token);
+    return decoded.unique_name || decoded.username || decoded.name || null;
+  } catch {
+    return null;
+  }
 } 

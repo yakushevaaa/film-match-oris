@@ -16,7 +16,11 @@ interface FriendRequest {
   // Добавьте другие нужные поля
 }
 
-export const RequestsModal = ({ isOpen, onClose, isSend }: RequestsModalProps) => {
+export const RequestsModal = ({
+  isOpen,
+  onClose,
+  isSend,
+}: RequestsModalProps) => {
   const [requests, setRequests] = useState<FriendRequest[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -25,7 +29,9 @@ export const RequestsModal = ({ isOpen, onClose, isSend }: RequestsModalProps) =
     setLoading(true);
     setError("");
     try {
-      const res = await axiosSettings.get(`/allFriendRequests`, { params: { IsSend: isSend } });
+      const res = await axiosSettings.get(`/allFriendRequests`, {
+        params: { IsSend: isSend },
+      });
       setRequests(res.data.requests || []);
     } catch {
       setError("Не удалось загрузить заявки");
@@ -44,7 +50,7 @@ export const RequestsModal = ({ isOpen, onClose, isSend }: RequestsModalProps) =
       await axiosSettings.post(`/accept?RequestId=${id}`);
       await fetchRequests();
     } catch {
-      alert('Ошибка при принятии заявки');
+      alert("Ошибка при принятии заявки");
     }
   };
 
@@ -53,7 +59,7 @@ export const RequestsModal = ({ isOpen, onClose, isSend }: RequestsModalProps) =
       await axiosSettings.post(`/decline?RequestId=${id}`);
       await fetchRequests();
     } catch {
-      alert('Ошибка при отклонении заявки');
+      alert("Ошибка при отклонении заявки");
     }
   };
 
@@ -69,10 +75,37 @@ export const RequestsModal = ({ isOpen, onClose, isSend }: RequestsModalProps) =
       <button className={styles.closeButton} onClick={onClose}>
         ×
       </button>
-      <h2 className={styles.title}>{isSend ? "Отправленные заявки" : "Входящие заявки"}</h2>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 16 }}>
-        <button onClick={() => window.dispatchEvent(new CustomEvent('switchRequestsModal', { detail: true }))} disabled={isSend}>Отправленные</button>
-        <button onClick={() => window.dispatchEvent(new CustomEvent('switchRequestsModal', { detail: false }))} disabled={!isSend}>Входящие</button>
+      <h2 className={styles.title}>
+        {isSend ? "Отправленные заявки" : "Входящие заявки"}
+      </h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 8,
+          marginBottom: 16,
+        }}
+      >
+        <button
+          onClick={() =>
+            window.dispatchEvent(
+              new CustomEvent("switchRequestsModal", { detail: true })
+            )
+          }
+          disabled={isSend}
+        >
+          Отправленные
+        </button>
+        <button
+          onClick={() =>
+            window.dispatchEvent(
+              new CustomEvent("switchRequestsModal", { detail: false })
+            )
+          }
+          disabled={!isSend}
+        >
+          Входящие
+        </button>
       </div>
       {loading ? (
         <div>Загрузка...</div>
@@ -88,8 +121,20 @@ export const RequestsModal = ({ isOpen, onClose, isSend }: RequestsModalProps) =
                 ) : (
                   <>
                     <span>Вам отправил заявку: {req.senderName}</span>
-                    <button onClick={() => handleAccept(req.id)} style={{marginLeft: 8}}>Принять</button>
-                    <button onClick={() => handleDecline(req.id)} style={{marginLeft: 4}}>Отклонить</button>
+                    <button
+                      className={styles.button}
+                      onClick={() => handleAccept(req.id)}
+                      style={{ marginLeft: 8 }}
+                    >
+                      Принять
+                    </button>
+                    <button
+                      className={styles.button}
+                      onClick={() => handleDecline(req.id)}
+                      style={{ marginLeft: 4 }}
+                    >
+                      Отклонить
+                    </button>
                   </>
                 )}
               </li>
@@ -101,4 +146,4 @@ export const RequestsModal = ({ isOpen, onClose, isSend }: RequestsModalProps) =
       )}
     </Modal>
   );
-}; 
+};

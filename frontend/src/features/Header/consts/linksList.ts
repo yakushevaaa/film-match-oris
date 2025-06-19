@@ -1,4 +1,3 @@
-// types.ts или прямо здесь
 export interface NavItem {
   label: string;
   to: string;
@@ -11,10 +10,49 @@ type NavConfig = {
 };
 
 export const NAV_CONFIG: NavConfig = {
+  "/profile/friends/": [
+    {
+      label: "Главная",
+      to: "/",
+      isAccent: true,
+      color: "light",
+    },
+    {
+      label: "Мои друзья",
+      to: "/profile/friends",
+      color: "light",
+    },
+    
+  ],
+  "/profile/friends": [
+    {
+      label: "Главная",
+      to: "/",
+      isAccent: true,
+      color: "light",
+    },
+    {
+      label: "Профиль",
+      to: "/profile",
+      color: "light",
+    },
+  ],
+  "/profile": [
+    {
+      label: "Главная",
+      to: "/",
+      isAccent: true,
+      color: "light",
+    },
+    {
+      label: "Мои друзья",
+      to: "/profile/friends",
+    },
+  ],
   "/": [
     {
-      label: "Рекомендуемые",
-      to: "/recommended",
+      label: "Главная",
+      to: "/",
       color: "light",
       isAccent: true,
     },
@@ -23,9 +61,5 @@ export const NAV_CONFIG: NavConfig = {
   "/films": [
     { label: "Все фильмы", color: "dark", to: "/films/all" },
     { label: "Избранное", color: "dark", to: "/films/favorites" },
-  ],
-  "/profile": [
-    { label: "Мои данные", color: "dark", to: "/profile/info" },
-    { label: "Настройки", color: "dark", to: "/profile/settings" },
   ],
 };

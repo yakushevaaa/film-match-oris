@@ -7,12 +7,13 @@ import styles from "./index.module.scss";
 export const Profile = () => {
   const [likedFilms, setLikedFilms] = useState<Film[]>([]);
   const [bookmarkedFilms, setBookmarkedFilms] = useState<Film[]>([]);
+  const [dislikedFilms, setDislikedFilms] = useState<Film[]>([]);
 
   useEffect(() => {
     const fetchLikedFilms = async () => {
       try {
-        const response = await axiosSettings.get<Film[]>("/Film/LikedBy/me");
-        setLikedFilms(response.data);
+        const response = await axiosSettings.get("/Film/AllLikedFilms");
+        setLikedFilms(response.data.films || []);
       } catch (error) {
         console.error("Ошибка при загрузке лайкнутых фильмов:", error);
       }
@@ -23,8 +24,9 @@ export const Profile = () => {
   useEffect(() => {
     const fetchBookmarkedFilms = async () => {
       try {
-        const response = await axiosSettings.get<Film[]>("/Film/Bookmarked");
-        setBookmarkedFilms(response.data);
+        const response = await axiosSettings.get("/Film/Bookmarked");
+        const data = response.data;
+        setBookmarkedFilms(Array.isArray(data) ? data : data.films || []);
       } catch (error) {
         console.error("Ошибка при загрузке фильмов из закладок:", error);
       }
@@ -32,12 +34,44 @@ export const Profile = () => {
     fetchBookmarkedFilms();
   }, []);
 
+  useEffect(() => {
+    const fetchDislikedFilms = async () => {
+      try {
+        const response = await axiosSettings.get("/Film/AllDislikedFilms");
+        setDislikedFilms(response.data.films || []);
+      } catch (error) {
+        console.error("Ошибка при загрузке дизлайкнутых фильмов:", error);
+      }
+    };
+    fetchDislikedFilms();
+  }, []);
+
   return (
     <div className={styles.contentContainer}>
       <h2>Понравившиеся фильмы</h2>
-      <FilmsList films={likedFilms} />
+      {likedFilms.length === 0 ? (
+        <div style={{ color: '#b0b0b0', textAlign: 'center', fontStyle: 'italic', margin: '24px 0' }}>
+          Список понравившихся фильмов пуст
+        </div>
+      ) : (
+        <FilmsList films={likedFilms} />
+      )}
       <h2>Фильмы в закладках</h2>
-      <FilmsList films={bookmarkedFilms} />
+      {bookmarkedFilms.length === 0 ? (
+        <div style={{ color: '#b0b0b0', textAlign: 'center', fontStyle: 'italic', margin: '24px 0' }}>
+          Список фильмов в закладках пуст
+        </div>
+      ) : (
+        <FilmsList films={bookmarkedFilms} />
+      )}
+      <h2>Дизлайкнутые фильмы</h2>
+      {dislikedFilms.length === 0 ? (
+        <div style={{ color: '#b0b0b0', textAlign: 'center', fontStyle: 'italic', margin: '24px 0' }}>
+          Список дизлайкнутых фильмов пуст
+        </div>
+      ) : (
+        <FilmsList films={dislikedFilms} />
+      )}
     </div>
   );
 };

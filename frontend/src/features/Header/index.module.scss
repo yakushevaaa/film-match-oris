@@ -1,9 +1,17 @@
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
+  padding-right: 50px;
   /* position: fixed; */
 
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
   &__logo {
     width: 90px;
   }
@@ -26,4 +34,12 @@
 
 .headerDarkBg {
   background: #1E1E1E;
+}
+
+.userBlock {
+  cursor: pointer;
+}
+
+.userBlockLight {
+  color: #fff !important;
 }
