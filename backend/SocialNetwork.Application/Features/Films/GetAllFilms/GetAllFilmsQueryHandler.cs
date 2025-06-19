@@ -14,8 +14,17 @@ namespace FilmMatch.Application.Features.Films.GetAllFilms
         }
         public async Task<GetAllFilmsResponse> Handle(GetAllFilmsQuery request, CancellationToken cancellationToken)
         {
-            var films = await _dbContext.Films
-                .Include(f => f.Category)
+            var query = _dbContext.Films.Include(f => f.Category).AsQueryable();
+            if (request.CategoryId.HasValue)
+            {
+                query = query.Where(f => f.CategoryId == request.CategoryId.Value);
+            }
+            if (!string.IsNullOrWhiteSpace(request.Search))
+            {
+                var searchLower = request.Search.ToLower();
+                query = query.Where(f => f.Title.ToLower().Contains(searchLower));
+            }
+            var films = await query
                 .Select(f => new GetAllFilmsDto
                 {
                     Id = f.Id,

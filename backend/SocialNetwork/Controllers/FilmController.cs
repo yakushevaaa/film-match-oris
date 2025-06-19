@@ -114,9 +114,9 @@ namespace FilmMatch.Controllers
 
         [HttpGet("GetAllFilms")]
         [Authorize]
-        public async Task<IActionResult> GetAllFilms()
+        public async Task<IActionResult> GetAllFilms([FromQuery] Guid? categoryId = null, [FromQuery] string? search = null)
         {
-            var result = await _mediator.Send(new GetAllFilmsQuery());
+            var result = await _mediator.Send(new GetAllFilmsQuery(categoryId, search));
             return Ok(result.Films);
         }
 
