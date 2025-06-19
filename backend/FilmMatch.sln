@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilmMatch.Persistence", "So
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Shared", "SocialNetwork.Shared\SocialNetwork.Shared.csproj", "{4C5C50F0-9169-4D3C-A3AD-5B267C5E52B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S3", "S3\S3.csproj", "{7A766AA5-67C1-40AF-A05D-502B0ECF31FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{4C5C50F0-9169-4D3C-A3AD-5B267C5E52B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C5C50F0-9169-4D3C-A3AD-5B267C5E52B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C5C50F0-9169-4D3C-A3AD-5B267C5E52B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A766AA5-67C1-40AF-A05D-502B0ECF31FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A766AA5-67C1-40AF-A05D-502B0ECF31FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A766AA5-67C1-40AF-A05D-502B0ECF31FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A766AA5-67C1-40AF-A05D-502B0ECF31FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{18E3368A-C3E1-4129-9A1D-C2A96F275696} = {659BE125-7D94-4C34-887A-F0A571CE23C3}
 		{20ADFD8D-C7E0-4C81-A395-62B5326D6B42} = {659BE125-7D94-4C34-887A-F0A571CE23C3}
 		{4C5C50F0-9169-4D3C-A3AD-5B267C5E52B5} = {B7CADA4E-C84C-4A47-AFFC-BF4B878EEC61}
+		{7A766AA5-67C1-40AF-A05D-502B0ECF31FC} = {659BE125-7D94-4C34-887A-F0A571CE23C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02E9D70C-71F7-4C2D-91EE-829FE41F228D}

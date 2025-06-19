@@ -1,4 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+using FilmMatch.Application.Features.Films.BookmarkFilm;
+using FilmMatch.Application.Features.Films.CreateFilm;
+using FilmMatch.Application.Features.Films.DislikeFilm;
 using FilmMatch.Application.Features.Films.GetRecommendations;
+using FilmMatch.Application.Features.Films.LikeFilm;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -59,16 +64,14 @@ namespace FilmMatch.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Create([FromBody] Film film)
+        [Consumes("multipart/form-data")]
+        [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
+        public async Task<IActionResult> Create([FromForm] CreateFilmCommand command)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            await _dbContext.Films.AddAsync(film);
-            await _dbContext.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetById), new { id = film.Id }, film);
+            await _mediator.Send(command);
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -131,98 +134,44 @@ namespace FilmMatch.Controllers
         }
 
         [HttpPost("Like/{filmId}")]
-        public async Task<IActionResult> LikeFilm(Guid filmId)
+        public async Task<IActionResult> ToggleLike(Guid filmId)
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var exists = await _dbContext.UserLikedFilm
-                .AnyAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (exists) return Ok("Already liked");
-
-            _dbContext.UserLikedFilm.Add(new UserLikedFilm { FilmId = filmId, UserId = guidUserId });
-            await _dbContext.SaveChangesAsync();
-            return Ok();
+            return Ok(await _mediator.Send(new ToggleLikeFilmCommand(filmId)));
         }
 
-        [HttpDelete("Like/{filmId}")]
-        public async Task<IActionResult> UnlikeFilm(Guid filmId)
+        [HttpGet("AllLikedFilms")]
+        public async Task<IActionResult> GetAllLikedFilms()
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var like = await _dbContext.UserLikedFilm
-                .FirstOrDefaultAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (like == null) return NotFound();
-
-            _dbContext.UserLikedFilm.Remove(like);
-            await _dbContext.SaveChangesAsync();
-            return Ok();
+            return Ok(await _mediator.Send(new GetLikedFilmsQuery()));
         }
 
         [HttpPost("Dislike/{filmId}")]
-        public async Task<IActionResult> DislikeFilm(Guid filmId)
+        public async Task<IActionResult> ToggleDislike(Guid filmId)
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var exists = await _dbContext.UserDislikedFilm
-                .AnyAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (exists) return Ok("Already disliked");
-
-            _dbContext.UserDislikedFilm.Add(new UserDislikedFilm { FilmId = filmId, UserId = guidUserId });
-            await _dbContext.SaveChangesAsync();
-            return Ok();
+            return Ok(await _mediator.Send(new ToggleDislikeFilmCommand(filmId)));
         }
 
-        [HttpDelete("Dislike/{filmId}")]
-        public async Task<IActionResult> UndislikeFilm(Guid filmId)
+        [HttpGet("AllDislikedFilms")]
+        public async Task<IActionResult> GetAllDislikedFilms()
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var dislike = await _dbContext.UserDislikedFilm
-                .FirstOrDefaultAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (dislike == null) return Ok();
-
-            _dbContext.UserDislikedFilm.Remove(dislike);
-            await _dbContext.SaveChangesAsync();
-            return Ok();
+            return Ok(await _mediator.Send(new GetDislikedFilmsQuery()));
         }
 
         [HttpPost("Bookmark/{filmId}")]
         public async Task<IActionResult> BookmarkFilm(Guid filmId)
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var exists = await _dbContext.UserBookmarkedFilm
-                .AnyAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (exists) return Ok("Already bookmarked");
-
-            _dbContext.UserBookmarkedFilm.Add(new UserBookmarkedFilm { FilmId = filmId, UserId = guidUserId });
-            await _dbContext.SaveChangesAsync();
+            var result = await _mediator.Send(new BookmarkFilmCommand(filmId));
+            if (!result.IsSuccessed)
+                return Ok(result.Message);
             return Ok();
         }
 
         [HttpDelete("Bookmark/{filmId}")]
         public async Task<IActionResult> UnbookmarkFilm(Guid filmId)
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized();
-            var guidUserId = Guid.Parse(userId);
-
-            var bookmark = await _dbContext.UserBookmarkedFilm
-                .FirstOrDefaultAsync(x => x.FilmId == filmId && x.UserId == guidUserId);
-            if (bookmark == null) return Ok();
-
-            _dbContext.UserBookmarkedFilm.Remove(bookmark);
-            await _dbContext.SaveChangesAsync();
+            var result = await _mediator.Send(new UnbookmarkFilmCommand(filmId));
+            if (!result.IsSuccessed)
+                return Ok(result.Message);
             return Ok();
         }
 
@@ -269,6 +218,13 @@ namespace FilmMatch.Controllers
         {
             var result = await _mediator.Send(new GetRecommendationsQuery());
             return Ok(result);
+        }
+
+        [HttpGet("Bookmarked")]
+        public async Task<IActionResult> GetBookmarkedFilms()
+        {
+            var result = await _mediator.Send(new GetBookmarkedFilmsQuery());
+            return Ok(result.Films);
         }
     }
 } 

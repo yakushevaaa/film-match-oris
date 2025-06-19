@@ -47,7 +47,8 @@ namespace FilmMatch.Application.Features.Users.Commands.RegisterUser
             {
                 Id = biznesUserId,
                 IdentityUserId = user.Id,
-                Name = request.Name
+                Name = request.Name,
+                Email = request.Email,
             });
 
             var claims = new List<Claim>

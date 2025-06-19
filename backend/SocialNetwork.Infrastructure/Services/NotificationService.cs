@@ -15,11 +15,12 @@ namespace FilmMatch.Infrastructure.Services
             _hubContext = hubContext;
         }
 
-        public async Task SendNotificationAsync(Guid userId)
+        public async Task SendNotificationAsync(Guid userId, string message)
         {
             if(userId == Guid.Empty)
                 throw new ArgumentNullException(nameof(userId));
-            await _hubContext.Clients.Group(userId.ToString()).SendAsync("ReceiveNotification", userId);
+                await _hubContext.Clients.Group(userId.ToString()).SendAsync("ReceiveNotification", message);
+
         }
     }
 }

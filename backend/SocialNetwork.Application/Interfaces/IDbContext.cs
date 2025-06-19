@@ -14,6 +14,7 @@ public interface IDbContext
     DbSet<UserDislikedFilm> UserDislikedFilm { get; }
     DbSet<UserBookmarkedFilm> UserBookmarkedFilm { get; }
     DbSet<UserFriend> UserFriends { get; }
+    DbSet<FriendRequest> FriendRequests { get; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     

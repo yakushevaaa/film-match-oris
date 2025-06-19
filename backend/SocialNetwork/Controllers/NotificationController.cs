@@ -8,7 +8,7 @@ namespace FilmMatch.Controllers
         [HttpGet("/notification")]
         public async Task<IActionResult> SendNotification([FromQuery] Guid userId)
         {
-            await notificationService.SendNotificationAsync(userId);
+            await notificationService.SendNotificationAsync(userId, "test");
             return Ok();
         }
     }

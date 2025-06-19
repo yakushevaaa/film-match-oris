@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>ef0555ac-0106-42ee-870b-f1fbab7ffabe</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\S3\S3.csproj" />
     <ProjectReference Include="..\SocialNetwork.Infrastructure\FilmMatch.Infrastructure.csproj" />
     <ProjectReference Include="..\SocialNetwork.Persistence\FilmMatch.Persistence.csproj" />
   </ItemGroup>

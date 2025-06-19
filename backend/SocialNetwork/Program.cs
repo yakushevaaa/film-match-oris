@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using S3;
 
 namespace FilmMatch;
 
@@ -25,6 +26,10 @@ public class Program
         builder.Services.AddPersistenceLayer(builder.Configuration);
         builder.Services.AddInfrastructureLayer();
         builder.Services.AddApplicationLayer();
+        builder.Services.AddS3Storage(builder.Configuration.GetSection("Application:S3").Get<S3Options>());
+        
+        builder.Services.AddHttpContextAccessor();
+        
         builder.Services.AddUserContext();
         var configuration = builder.Configuration;
         builder.Services.AddSingleton(configuration);
@@ -80,6 +85,20 @@ public class Program
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
                     ValidAudience = builder.Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+                };
+                // // Добавлено для поддержки аутентификации SignalR через query string
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/notificationhub"))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
 

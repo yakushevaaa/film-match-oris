@@ -164,6 +164,42 @@ namespace FilmMatch.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FilmMatch.Domain.Entities.FriendRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("ReceiverId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("FriendRequests");
+                });
+
             modelBuilder.Entity("FilmMatch.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -175,6 +211,10 @@ namespace FilmMatch.Persistence.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("HasSubscription")
                         .HasColumnType("boolean");
@@ -284,7 +324,7 @@ namespace FilmMatch.Persistence.Migrations
 
                     b.HasIndex("FriendId");
 
-                    b.ToTable("UserFriend");
+                    b.ToTable("UserFriends");
                 });
 
             modelBuilder.Entity("FilmMatch.Domain.Entities.UserLikedFilm", b =>
@@ -547,6 +587,25 @@ namespace FilmMatch.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("FilmMatch.Domain.Entities.FriendRequest", b =>
+                {
+                    b.HasOne("FilmMatch.Domain.Entities.User", "Receiver")
+                        .WithMany()
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FilmMatch.Domain.Entities.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("FilmMatch.Domain.Entities.UserBookmarkedFilm", b =>
