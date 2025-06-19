@@ -19,7 +19,7 @@ namespace FilmMatch.Application.Features.Films.DislikeFilm
         }
         public async Task<GetDislikedFilmsResponse> Handle(GetDislikedFilmsQuery request, CancellationToken cancellationToken)
         {
-            var userId = _userContext.GetUserId();
+            var userId = request.UserId ?? _userContext.GetUserId();
             var films = await _dbContext.UserDislikedFilm
                 .Where(x => x.UserId == userId)
                 .Include(x => x.Film).ThenInclude(f => f.Category)

@@ -152,9 +152,9 @@ namespace FilmMatch.Controllers
         }
 
         [HttpGet("AllDislikedFilms")]
-        public async Task<IActionResult> GetAllDislikedFilms()
+        public async Task<IActionResult> GetAllDislikedFilms([FromQuery] Guid? userId = null)
         {
-            return Ok(await _mediator.Send(new GetDislikedFilmsQuery()));
+            return Ok(await _mediator.Send(new GetDislikedFilmsQuery(userId)));
         }
 
         [HttpPost("Bookmark/{filmId}")]
