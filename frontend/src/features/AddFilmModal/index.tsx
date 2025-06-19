@@ -21,7 +21,6 @@ interface Category {
 interface FilmFormData {
   title: string;
   releaseDate: string;
-  imageUrl: string;
   longDescription: string;
   shortDescription: string;
   categoryId: string;
@@ -30,6 +29,8 @@ interface FilmFormData {
 export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess, editMode = false, initialData, onSubmitCustom }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FilmFormData>();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imageUploadError, setImageUploadError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -40,6 +41,7 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
         });
       } else {
         reset();
+        setSelectedFile(null);
       }
     }
   }, [isOpen, editMode, initialData, setValue, reset]);
@@ -59,16 +61,36 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+      setImageUploadError(null);
+    }
+  };
+
   const onSubmit = async (data: FilmFormData) => {
-    // Преобразуем дату в UTC ISO-строку
     if (data.releaseDate) {
       data.releaseDate = new Date(data.releaseDate).toISOString();
+    }
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("releaseDate", data.releaseDate);
+    formData.append("longDescription", data.longDescription);
+    formData.append("shortDescription", data.shortDescription);
+    formData.append("categoryId", data.categoryId);
+    if (selectedFile) {
+      formData.append("image", selectedFile);
+    } else {
+      setImageUploadError("Пожалуйста, выберите изображение");
+      return;
     }
     try {
       if (editMode && onSubmitCustom) {
         await onSubmitCustom(data);
       } else {
-        await axiosSettings.post("/Film", data);
+        await axiosSettings.post("/Film", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       }
       reset();
       onSuccess();
@@ -104,16 +126,6 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="imageUrl">URL изображения</label>
-            <input
-              id="imageUrl"
-              type="text"
-              {...register("imageUrl", { required: "URL изображения обязателен" })}
-            />
-            {errors.imageUrl && <span className={styles.error}>{errors.imageUrl.message}</span>}
-          </div>
-
-          <div className={styles.formGroup}>
             <label htmlFor="shortDescription">Краткое описание</label>
             <textarea
               id="shortDescription"
@@ -145,6 +157,26 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
               ))}
             </select>
             {errors.categoryId && <span className={styles.error}>{errors.categoryId.message}</span>}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="imageFile">Изображение</label>
+            <input
+              id="imageFile"
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+            {imageUploadError && <span className={styles.error}>{imageUploadError}</span>}
+            {selectedFile && (
+              <div className={styles.imagePreview}>
+                <img
+                  src={URL.createObjectURL(selectedFile)}
+                  alt="Превью"
+                  style={{ maxWidth: 200, marginTop: 8 }}
+                />
+              </div>
+            )}
           </div>
 
           <div className={styles.buttons}>

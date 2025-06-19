@@ -32,7 +32,7 @@ export const FilmPage = () => {
       <div className={styles.empty}></div>
       <div className={styles.top__container}>
         <Search width={500} placeholder="Найдите фильм" />
-        <Filters />
+        
       </div>
 
       <CheckboxFiltersList
