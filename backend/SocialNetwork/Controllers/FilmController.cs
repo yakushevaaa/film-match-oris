@@ -12,6 +12,8 @@ using FilmMatch.Domain.Entities;
 using FilmMatch.Application.Interfaces;
 using MediatR;
 using FilmMatch.Application.Features.Films.GetAllFilms;
+using FilmMatch.Application.Features.Categories.GetAllCategories;
+using FilmMatch.Application.Contracts.Responses.Categories.GetAllCategories;
 
 namespace FilmMatch.Controllers
 {
