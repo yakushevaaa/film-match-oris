@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using FilmMatch.Application.Features.Films.BookmarkFilm;
+using FilmMatch.Application.Features.Films.CreateFilm;
 using FilmMatch.Application.Features.Films.DislikeFilm;
 using FilmMatch.Application.Features.Films.GetRecommendations;
 using FilmMatch.Application.Features.Films.LikeFilm;
@@ -62,16 +64,14 @@ namespace FilmMatch.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
-        public async Task<IActionResult> Create([FromBody] Film film)
+        [Consumes("multipart/form-data")]
+        // [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
+        public async Task<IActionResult> Create([FromForm] CreateFilmCommand command)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            await _dbContext.Films.AddAsync(film);
-            await _dbContext.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetById), new { id = film.Id }, film);
+            await _mediator.Send(command);
+            return Ok();
         }
 
         [HttpPut("{id}")]

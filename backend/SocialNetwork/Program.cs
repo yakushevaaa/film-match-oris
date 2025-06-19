@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using S3;
 
 namespace FilmMatch;
 
@@ -25,6 +26,7 @@ public class Program
         builder.Services.AddPersistenceLayer(builder.Configuration);
         builder.Services.AddInfrastructureLayer();
         builder.Services.AddApplicationLayer();
+        builder.Services.AddS3Storage(builder.Configuration.GetSection("Application:S3").Get<S3Options>());
         
         builder.Services.AddHttpContextAccessor();
         

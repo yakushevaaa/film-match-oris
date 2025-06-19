@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\S3\S3.csproj" />
     <ProjectReference Include="..\SocialNetwork.Infrastructure\FilmMatch.Infrastructure.csproj" />
     <ProjectReference Include="..\SocialNetwork.Persistence\FilmMatch.Persistence.csproj" />
   </ItemGroup>
