@@ -3,7 +3,11 @@ import { axiosSettings } from "@shared/api/axiosSettings";
 import { InteractiveCard } from "./InteractiveCard";
 import { useFilmActions } from "@/entities/film/useFilmActions";
 
-export const InteractiveList = () => {
+interface InteractiveListProps {
+  initialFilmId?: string;
+}
+
+export const InteractiveList = ({ initialFilmId }: InteractiveListProps) => {
   const [films, setFilms] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -20,20 +24,23 @@ export const InteractiveList = () => {
       setNoNewFilms(false);
       try {
         const response = await axiosSettings.get("/Film/recommendations");
-        const { recommendations, isEverythingReacted } = response.data;
-
-        if (isEverythingReacted === true) {
-          // Пользователь не поставил ни одного лайка — показываем все фильмы
-          const allFilmsResp = await axiosSettings.get("/Film/GetAllFilms");
-          setFilms(allFilmsResp.data);
-        } else if (isEverythingReacted === false) {
-          // Нет новых фильмов для пользователя
-          setNoNewFilms(true);
-          setFilms([]);
+        const recFilms = response.data.films || response.data.recommendations || [];
+        let loadedFilms: any[];
+        if (Array.isArray(recFilms) && recFilms.length > 0) {
+          loadedFilms = recFilms;
         } else {
-          // Показываем рекомендации
-          setFilms(recommendations || []);
+          const allFilmsResp = await axiosSettings.get("/Film/GetAllFilms");
+          loadedFilms = allFilmsResp.data.films || allFilmsResp.data || [];
         }
+        // Если initialFilmId есть и фильм с таким id найден — делаем его первым
+        if (initialFilmId) {
+          const idx = loadedFilms.findIndex(f => String(f.id) === String(initialFilmId));
+          if (idx > 0) {
+            const [film] = loadedFilms.splice(idx, 1);
+            loadedFilms.unshift(film);
+          }
+        }
+        setFilms(loadedFilms);
         setCurrentIndex(0);
       } catch (err) {
         setError("Не удалось загрузить рекомендации");
@@ -42,7 +49,7 @@ export const InteractiveList = () => {
       }
     };
     fetchRecommendations();
-  }, []);
+  }, [initialFilmId]);
 
   const handleAction = async (
     action: (id: string | number) => Promise<void>,

@@ -48,25 +48,46 @@ export const Profile = () => {
 
   return (
     <div className={styles.contentContainer}>
-      <h2>Понравившиеся фильмы</h2>
+      <h2 className={styles.filmsTitle}>Понравившиеся фильмы</h2>
       {likedFilms.length === 0 ? (
-        <div style={{ color: '#b0b0b0', textAlign: 'center', fontStyle: 'italic', margin: '24px 0' }}>
+        <div
+          style={{
+            color: "#b0b0b0",
+            textAlign: "center",
+            fontStyle: "italic",
+            margin: "24px 0",
+          }}
+        >
           Список понравившихся фильмов пуст
         </div>
       ) : (
         <FilmsList films={likedFilms} />
       )}
-      <h2>Фильмы в закладках</h2>
+      <h2 className={styles.filmsTitle}>Фильмы в закладках</h2>
       {bookmarkedFilms.length === 0 ? (
-        <div style={{ color: '#b0b0b0', textAlign: 'center', fontStyle: 'italic', margin: '24px 0' }}>
+        <div
+          style={{
+            color: "#b0b0b0",
+            textAlign: "center",
+            fontStyle: "italic",
+            margin: "24px 0",
+          }}
+        >
           Список фильмов в закладках пуст
         </div>
       ) : (
         <FilmsList films={bookmarkedFilms} />
       )}
-      <h2>Дизлайкнутые фильмы</h2>
+      <h2 className={styles.filmsTitle}>Дизлайкнутые фильмы</h2>
       {dislikedFilms.length === 0 ? (
-        <div style={{ color: '#b0b0b0', textAlign: 'center', fontStyle: 'italic', margin: '24px 0' }}>
+        <div
+          style={{
+            color: "#b0b0b0",
+            textAlign: "center",
+            fontStyle: "italic",
+            margin: "24px 0",
+          }}
+        >
           Список дизлайкнутых фильмов пуст
         </div>
       ) : (

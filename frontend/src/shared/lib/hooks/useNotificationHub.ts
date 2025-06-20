@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import * as signalR from "@microsoft/signalr";
 
 export const useNotificationHub = (
-  userId: string,
+  userId: string | null,
   onNotification: (data: any) => void
 ) => {
   const connectionRef = useRef<signalR.HubConnection | null>(null);
@@ -11,7 +11,9 @@ export const useNotificationHub = (
     if (!userId) return;
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:5210/notificationHub") // URL вашего NotificationHub
+      .withUrl("http://localhost:5210/notificationHub", {
+        accessTokenFactory: () => localStorage.getItem("token") || ""
+      })
       .withAutomaticReconnect()
       .build();
 

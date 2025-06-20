@@ -2,6 +2,7 @@ import { Logo } from "@shared/components/ui/Logo";
 import { AuthForm } from "@features/AuthForm";
 import arrowIcon from "/icons/arrow.svg";
 import styles from "./index.module.scss";
+import { Link } from "react-router-dom";
 
 export const LoginPage = () => {
   return (
@@ -17,10 +18,10 @@ export const LoginPage = () => {
         <div className={styles.form__head}>
           <h1 className={styles.form__title}>Войти</h1>
           <div className={styles.form__link_container}>
-            <a className={styles.form__link} href="">
+            <Link className={styles.form__link} to="/auth/register">
               <img className={styles.form__icon} src={arrowIcon} alt="" />
               Создайте новую учетную запись
-            </a>
+            </Link>
           </div>
         </div>
         <AuthForm type="login" />

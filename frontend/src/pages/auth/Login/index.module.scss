@@ -88,7 +88,9 @@
   }
 
   &__link_container {
-    width: 100px;
+    @include adaptive(mobile) {
+      width: 100px;
+    }
   }
 
   &__link {

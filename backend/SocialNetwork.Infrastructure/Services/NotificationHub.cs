@@ -22,5 +22,10 @@ namespace FilmMatch.Infrastructure.Services
             await Groups.AddToGroupAsync(Context.ConnectionId, _userContext.GetUserId().ToString());
             await base.OnConnectedAsync();
         }
+
+        public async Task JoinGroup(string userId)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, userId);
+        }
     }
 }
