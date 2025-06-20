@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using S3;
+using FilmMatch.Middleware;
 
 namespace FilmMatch;
 
@@ -134,6 +135,7 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseCors();
