@@ -61,7 +61,7 @@ export const UserFriendsTable = () => {
                 <tr key={friend.id}>
                   <td
                     style={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/profile/friends/${friend.id}`)}
+                    onClick={() => navigate(`/profile/friends/${friend.friendId}`)}
                   >
                     {friend.name}
                   </td>
