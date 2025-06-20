@@ -32,7 +32,7 @@ export const InteractiveList = ({ initialFilmId }: InteractiveListProps) => {
           const allFilmsResp = await axiosSettings.get("/Film/GetAllFilms");
           loadedFilms = allFilmsResp.data.films || allFilmsResp.data || [];
         }
-        // Если initialFilmId есть и фильм с таким id найден — делаем его первым
+     
         if (initialFilmId) {
           const idx = loadedFilms.findIndex(f => String(f.id) === String(initialFilmId));
           if (idx > 0) {
@@ -58,7 +58,7 @@ export const InteractiveList = ({ initialFilmId }: InteractiveListProps) => {
   ) => {
     setSwipeDirection(direction);
     await action(id);
-    // Переключение фильма произойдет после анимации
+   
   };
 
   const handleAnimationEnd = () => {

@@ -31,7 +31,7 @@ export const UsersTable = () => {
   const handleMakeAdmin = async (row: MRT_Row<User>) => {
     try {
       await axiosSettings.post(`/User/MakeAdmin/${row.original.id}`);
-      fetchUsers(); // Обновляем список после изменения
+      fetchUsers();
     } catch (error) {
       console.error('Ошибка при назначении админа:', error);
     }
@@ -44,7 +44,7 @@ export const UsersTable = () => {
       } else {
         await axiosSettings.post(`/User/BlockUser/${row.original.id}`);
       }
-      fetchUsers(); // Обновляем список после изменения
+      fetchUsers(); 
     } catch (error) {
       console.error('Ошибка при блокировке/разблокировке пользователя:', error);
     }

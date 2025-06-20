@@ -13,7 +13,7 @@ export const FilmsListItem: FC<FilmProps> = ({ filmData, onLike }) => {
   const handleLikeClick = () => {
     if (onLike) {
       onLike(id);
-      setLiked((prev) => !prev); // переключаем состояние
+      setLiked((prev) => !prev); 
     }
   };
 

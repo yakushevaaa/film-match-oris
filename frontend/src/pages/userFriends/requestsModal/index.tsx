@@ -13,7 +13,7 @@ interface FriendRequest {
   id: string;
   senderName: string;
   receiverName: string;
-  // Добавьте другие нужные поля
+ 
 }
 
 export const RequestsModal = ({
@@ -42,7 +42,7 @@ export const RequestsModal = ({
 
   useEffect(() => {
     if (isOpen) fetchRequests();
-    // eslint-disable-next-line
+ 
   }, [isOpen, isSend]);
 
   const handleAccept = async (id: string) => {
@@ -87,6 +87,7 @@ export const RequestsModal = ({
         }}
       >
         <button
+          className={`${styles.sentButton}${isSend ? ' ' + styles.activeButton : ''}`}
           onClick={() =>
             window.dispatchEvent(
               new CustomEvent("switchRequestsModal", { detail: true })
@@ -97,6 +98,7 @@ export const RequestsModal = ({
           Отправленные
         </button>
         <button
+          className={`${styles.receivedButton}${!isSend ? ' ' + styles.activeButton : ''}`}
           onClick={() =>
             window.dispatchEvent(
               new CustomEvent("switchRequestsModal", { detail: false })

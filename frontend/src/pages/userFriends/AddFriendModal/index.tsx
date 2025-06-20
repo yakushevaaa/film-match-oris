@@ -17,7 +17,8 @@ interface AddFriendModalProps {
 
 interface UserProfile {
   id: string;
-  username: string;
+  name: string;
+  email: string;
 }
 
 export const AddFriendModal = ({ isOpen, onClose }: AddFriendModalProps) => {
@@ -25,7 +26,7 @@ export const AddFriendModal = ({ isOpen, onClose }: AddFriendModalProps) => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { user } = { user: { id: localStorage.getItem("userId") } }; // или используйте ваш useAuth
+  const { user } = { user: { id: localStorage.getItem("userId") } }; 
   const navigate = useNavigate();
   const [toast, setToast] = useState<string | null>(null);
 
@@ -34,8 +35,8 @@ export const AddFriendModal = ({ isOpen, onClose }: AddFriendModalProps) => {
     setLoading(true);
     setError("");
     axiosSettings
-      .get("/User/usernames")
-      .then((res) => setUsers(res.data.useranames || []))
+      .get("/AllPossibleFriends")
+      .then((res) => setUsers(res.data.users || []))
       .catch(() => setError("Не удалось загрузить пользователей"))
       .finally(() => setLoading(false));
   }, [isOpen]);
@@ -47,7 +48,7 @@ export const AddFriendModal = ({ isOpen, onClose }: AddFriendModalProps) => {
   }
 
   const filteredUsers = users.filter((user) =>
-    user.username.toLowerCase().includes(search.toLowerCase())
+    user.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const handleAddFriend = async (receiverId: string) => {
@@ -93,7 +94,7 @@ export const AddFriendModal = ({ isOpen, onClose }: AddFriendModalProps) => {
             {filteredUsers.length > 0 ? (
               filteredUsers.map((user) => (
                 <li key={user.id} className={styles.userItem}>
-                  <span className={styles.username}>{user.username}</span>
+                  <span className={styles.username}>{user.name}</span>
                   <button
                     className={styles.addButton}
                     onClick={() => handleAddFriend(user.id)}

@@ -1,6 +1,9 @@
 .modalOverlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.35);
   z-index: 1000;
   display: flex;
@@ -11,18 +14,24 @@
 .modalContent {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
   padding: 32px 28px 24px 28px;
   min-width: 340px;
   max-width: 95vw;
   width: 400px;
   position: relative;
-  animation: modalIn 0.2s cubic-bezier(.4,2,.6,1) both;
+  animation: modalIn 0.2s cubic-bezier(0.4, 2, 0.6, 1) both;
 }
 
 @keyframes modalIn {
-  from { opacity: 0; transform: translateY(40px) scale(0.98); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .closeButton {
@@ -35,9 +44,6 @@
   color: #b0b0b0;
   cursor: pointer;
   transition: color 0.15s;
-}
-.closeButton:hover {
-  color: #222;
 }
 
 .title {
