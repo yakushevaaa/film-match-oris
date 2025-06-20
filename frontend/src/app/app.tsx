@@ -18,11 +18,31 @@ import { Admin } from "@/pages/admin";
 import { Profile } from "@/pages/profile";
 import { UserFriends } from "@/pages/userFriends";
 import { FriendProfile } from "@/pages/friendProfile";
+import { useAuth } from "@/shared/lib/authProvider";
+import { useNotificationHub } from "@/shared/lib/hooks/useNotificationHub";
+import { useState } from "react";
+import { ToastNotification } from "@/shared/components/ui/ToastNotification";
+
+const NotificationListener = () => {
+  const { token } = useAuth();
+  const [toast, setToast] = useState<string | null>(null);
+  let userId: string | null = null;
+  try {
+    userId = token ? JSON.parse(atob(token.split('.')[1])).nameid : null;
+  } catch {}
+
+  useNotificationHub(userId, (data) => {
+    setToast("Вам пришла новая заявка в друзья");
+  });
+
+  return toast ? <ToastNotification message={toast} onClose={() => setToast(null)} /> : null;
+};
 
 const App: FC = () => {
   return (
     <AuthProvider>
       <Router>
+        <NotificationListener />
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<MainPage />} />

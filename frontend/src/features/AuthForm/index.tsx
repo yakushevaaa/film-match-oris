@@ -80,7 +80,10 @@ export const AuthForm: FC<FormProps> = ({ type }) => {
           setErrors({ password: errorMessage });
           setSuccessMessage(null);
         } else {
-          const loginError = await loginUser({ email: email!, password: password! });
+          const loginError = await loginUser({
+            email: email!,
+            password: password!,
+          });
           if (loginError) {
             setErrors({ password: loginError });
             setSuccessMessage(null);
@@ -188,20 +191,6 @@ export const AuthForm: FC<FormProps> = ({ type }) => {
             )}
           </div>
         )}
-
-        <div className={styles.form__interactive_container}>
-          <Checkbox
-            label="Запомнить"
-            checked={!!form.rememberMe}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, rememberMe: e.target.checked }))
-            }
-            name="rememberMe"
-          />
-          <a className={styles.form__link} href="">
-            Забыли пароль?
-          </a>
-        </div>
 
         {successMessage && (
           <div className={styles.form__success}>{successMessage}</div>
