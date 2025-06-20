@@ -14,6 +14,7 @@ using MediatR;
 using FilmMatch.Application.Features.Films.GetAllFilms;
 using FilmMatch.Application.Features.Categories.GetAllCategories;
 using FilmMatch.Application.Contracts.Responses.Categories.GetAllCategories;
+using FilmMatch.Application.Features.Films.DeleteFilm;
 
 namespace FilmMatch.Controllers
 {
@@ -104,13 +105,9 @@ namespace FilmMatch.Controllers
         [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var film = await _dbContext.Films.FindAsync(id);
-            if (film == null)
+            var result = await _mediator.Send(new DeleteFilmCommand(id));
+            if (!result)
                 return NotFound();
-
-            _dbContext.Films.Remove(film);
-            await _dbContext.SaveChangesAsync();
-
             return NoContent();
         }
 
