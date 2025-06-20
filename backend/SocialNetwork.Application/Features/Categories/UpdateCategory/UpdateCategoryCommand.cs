@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace FilmMatch.Application.Features.Categories.UpdateCategory
 {
@@ -6,6 +7,6 @@ namespace FilmMatch.Application.Features.Categories.UpdateCategory
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string ImageUrl { get; set; }
+        public IFormFile? Image { get; set; }
     }
 } 

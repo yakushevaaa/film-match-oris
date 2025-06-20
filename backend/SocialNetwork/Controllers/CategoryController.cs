@@ -26,7 +26,7 @@ namespace FilmMatch.Controllers
 
         [HttpPost]
         [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
-        public async Task<IActionResult> Create([FromBody] CreateCategoryCommand command)
+        public async Task<IActionResult> Create([FromForm] CreateCategoryCommand command)
         {
             var id = await mediator.Send(command);
             return Ok(id);
@@ -34,7 +34,8 @@ namespace FilmMatch.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryCommand command)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Update(Guid id, [FromForm] UpdateCategoryCommand command)
         {
             if (id != command.Id)
                 return BadRequest();
