@@ -28,6 +28,11 @@ namespace FilmMatch.Application.Features.Films.DislikeFilm
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return new ToggleDislikeFilmResponse { IsDisliked = false, Message = "Dislike removed" };
             }
+            var like = await _dbContext.UserLikedFilm.FirstOrDefaultAsync(x => x.FilmId == request.FilmId && x.UserId == userId, cancellationToken);
+            if (like != null)
+            {
+                _dbContext.UserLikedFilm.Remove(like);
+            }
             _dbContext.UserDislikedFilm.Add(
                 new UserDislikedFilm
                 {
