@@ -28,7 +28,17 @@ namespace FilmMatch.Application.Features.Films.LikeFilm
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return new ToggleLikeFilmResponse { IsLiked = false, Message = "Like removed" };
             }
-            _dbContext.UserLikedFilm.Add(new UserLikedFilm { FilmId = request.FilmId, UserId = userId });
+            var dislike = await _dbContext.UserDislikedFilm.FirstOrDefaultAsync(x => x.FilmId == request.FilmId && x.UserId == userId, cancellationToken);
+            if (dislike != null)
+            {
+                _dbContext.UserDislikedFilm.Remove(dislike);
+            }
+            _dbContext.UserLikedFilm.Add(new UserLikedFilm
+            {
+                Id = Guid.NewGuid(),
+                FilmId = request.FilmId,
+                UserId = userId
+            });
             await _dbContext.SaveChangesAsync(cancellationToken);
             return new ToggleLikeFilmResponse { IsLiked = true, Message = "Film liked" };
         }

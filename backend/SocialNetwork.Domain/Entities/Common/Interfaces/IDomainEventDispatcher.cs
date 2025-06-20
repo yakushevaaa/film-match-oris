@@ -1,6 +1,4 @@
-﻿using Core.Entities.Common;
-
-namespace FilmMatch.Domain.Entities.Common.Interfaces;
+﻿namespace FilmMatch.Domain.Entities.Common.Interfaces;
 
 public interface IDomainEventDispatcher
 {

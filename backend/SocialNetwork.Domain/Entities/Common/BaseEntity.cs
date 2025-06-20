@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Core.Entities.Common;
 using FilmMatch.Domain.Entities.Common.Interfaces;
 
 namespace FilmMatch.Domain.Entities.Common;

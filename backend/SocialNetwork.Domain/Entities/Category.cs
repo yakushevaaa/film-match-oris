@@ -1,4 +1,4 @@
-﻿using Core.Entities.Common;
+﻿using FilmMatch.Domain.Entities.Common;
 
 namespace FilmMatch.Domain.Entities
 {

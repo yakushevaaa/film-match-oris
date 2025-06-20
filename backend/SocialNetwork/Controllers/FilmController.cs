@@ -14,6 +14,8 @@ using MediatR;
 using FilmMatch.Application.Features.Films.GetAllFilms;
 using FilmMatch.Application.Features.Categories.GetAllCategories;
 using FilmMatch.Application.Contracts.Responses.Categories.GetAllCategories;
+using FilmMatch.Application.Features.Films.DeleteFilm;
+using FilmMatch.Application.Features.Films.UpdateFilm;
 
 namespace FilmMatch.Controllers
 {
@@ -79,24 +81,16 @@ namespace FilmMatch.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Film film)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Update(Guid id, [FromForm] UpdateFilmCommand command)
         {
-            if (id != film.Id)
+            if (id != command.Id)
                 return BadRequest();
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            var existingFilm = await _dbContext.Films
-                .Include(f => f.Category)
-                .FirstOrDefaultAsync(f => f.Id == id);
-
-            if (existingFilm == null)
+            var result = await _mediator.Send(command);
+            if (!result)
                 return NotFound();
-
-            _dbContext.Entry(existingFilm).CurrentValues.SetValues(film);
-            await _dbContext.SaveChangesAsync();
-
             return NoContent();
         }
 
@@ -104,13 +98,9 @@ namespace FilmMatch.Controllers
         [Authorize(Roles = $"{RoleConstants.God},{RoleConstants.Admin}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var film = await _dbContext.Films.FindAsync(id);
-            if (film == null)
+            var result = await _mediator.Send(new DeleteFilmCommand(id));
+            if (!result)
                 return NotFound();
-
-            _dbContext.Films.Remove(film);
-            await _dbContext.SaveChangesAsync();
-
             return NoContent();
         }
 
