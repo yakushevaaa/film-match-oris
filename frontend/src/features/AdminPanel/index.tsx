@@ -30,7 +30,7 @@ export const AdminPanel = () => {
   const handleMakeAdmin = async (userId: string) => {
     try {
       await axiosSettings.post(`/User/MakeAdmin/${userId}`);
-      fetchUsers(); // Обновляем список пользователей
+      fetchUsers(); 
     } catch (error) {
       console.error("Ошибка при назначении админа:", error);
     }

@@ -12,15 +12,14 @@ export const FriendProfile = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!id) return;
     setLoading(true);
     setError("");
     axiosSettings
-      .get(`/Film/LikedBy/${id}`)
+      .get(`/Film/AllLikedFilms`)
       .then((res) => setFilms(res.data.films || []))
       .catch(() => setError("Не удалось загрузить фильмы"))
       .finally(() => setLoading(false));
-  }, [id]);
+  }, []);
 
   return (
     <div className={styles.content}>

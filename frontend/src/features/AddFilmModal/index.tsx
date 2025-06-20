@@ -9,7 +9,7 @@ interface AddFilmModalProps {
   onClose: () => void;
   onSuccess: () => void;
   editMode?: boolean;
-  initialData?: Partial<FilmFormData & { id?: number }>;
+  initialData?: Partial<FilmFormData & { id?: number; imageUrl?: string }>;
   onSubmitCustom?: (data: FilmFormData) => Promise<void>;
 }
 
@@ -31,6 +31,8 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
   const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FilmFormData>();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUploadError, setImageUploadError] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [imageRemoved, setImageRemoved] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -39,9 +41,14 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
         Object.entries(initialData).forEach(([key, value]) => {
           if (value !== undefined) setValue(key as keyof FilmFormData, value as any);
         });
+        setImagePreview(initialData.imageUrl || "");
+        setImageRemoved(false);
+        setSelectedFile(null);
       } else {
         reset();
         setSelectedFile(null);
+        setImagePreview("");
+        setImageRemoved(false);
       }
     }
   }, [isOpen, editMode, initialData, setValue, reset]);
@@ -65,7 +72,15 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
       setImageUploadError(null);
+      setImagePreview(URL.createObjectURL(e.target.files[0]));
+      setImageRemoved(false);
     }
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedFile(null);
+    setImagePreview("");
+    setImageRemoved(true);
   };
 
   const onSubmit = async (data: FilmFormData) => {
@@ -80,7 +95,9 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
     formData.append("categoryId", data.categoryId);
     if (selectedFile) {
       formData.append("image", selectedFile);
-    } else {
+    } else if (editMode && imagePreview && !imageRemoved) {
+      formData.append("imageUrl", imagePreview); // если сервер поддерживает imageUrl
+    } else if (!selectedFile && !imagePreview && !editMode) {
       setImageUploadError("Пожалуйста, выберите изображение");
       return;
     }
@@ -161,22 +178,26 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
 
           <div className={styles.formGroup}>
             <label htmlFor="imageFile">Изображение</label>
+            {imagePreview && (
+              <div className={styles.imagePreview}>
+                <img
+                  src={imagePreview}
+                  alt="Превью"
+                  style={{ maxWidth: 200, marginTop: 8 }}
+                />
+                <button type="button" onClick={handleRemoveImage} className={styles.removeImageButton}>
+                  Удалить фото
+                </button>
+              </div>
+            )}
             <input
               id="imageFile"
               type="file"
               accept="image/*"
               onChange={handleFileChange}
+              // required={!imagePreview && !editMode}
             />
             {imageUploadError && <span className={styles.error}>{imageUploadError}</span>}
-            {selectedFile && (
-              <div className={styles.imagePreview}>
-                <img
-                  src={URL.createObjectURL(selectedFile)}
-                  alt="Превью"
-                  style={{ maxWidth: 200, marginTop: 8 }}
-                />
-              </div>
-            )}
           </div>
 
           <div className={styles.buttons}>

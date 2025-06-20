@@ -1,4 +1,3 @@
-// Важно: эндпоинт /User/me должен возвращать 200 если пользователь авторизован, иначе 401
 import axios from "axios";
 import {
   createContext,

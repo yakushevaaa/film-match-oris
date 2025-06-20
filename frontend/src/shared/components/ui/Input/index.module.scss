@@ -14,7 +14,7 @@
   color: var(--text-color-dark-54);
   border: 0.5px solid var(--text-color-dark-42);
   border-radius: 8px;
-  padding: 16px 20px 8px; // Больше места сверху для лейбла
+  padding: 16px 20px 8px;
   font-size: 14px;
   width: 100%;
   transition: all 0.3s ease;
@@ -50,8 +50,8 @@
 .input:-webkit-autofill:focus,
 .input:-webkit-autofill:hover,
 .input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px white inset !important; // или ваш цвет фона
+  -webkit-box-shadow: 0 0 0 1000px white inset !important; 
   box-shadow: 0 0 0 1000px white inset !important;
-  -webkit-text-fill-color: var(--text-color-dark-54) !important; // ваш цвет текста
+  -webkit-text-fill-color: var(--text-color-dark-54) !important; 
   transition: background-color 5000s ease-in-out 0s;
 }

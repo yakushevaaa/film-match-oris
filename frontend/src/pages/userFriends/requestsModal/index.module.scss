@@ -88,7 +88,7 @@
 }
 
 .button {
-  background: #3b82f6;
+  background: var(--accent-secondary-color);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -98,11 +98,34 @@
   cursor: pointer;
   transition: background 0.18s;
 }
-button:disabled {
-  background: #e5e7eb;
-  color: #b0b0b0;
-  cursor: default;
+// button:disabled {
+//   background: #e5e7eb;
+//   color: #b0b0b0;
+//   cursor: default;
+// }
+// button:not(:disabled):hover {
+//   background: #2563eb;
+// }
+
+.sentButton,
+.receivedButton {
+  padding: 8px 16px;
+  border: none;
+  background: #f3f4f6;
+  color: #222;
+  border-radius: 6px;
+  margin-right: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s, color 0.2s;
 }
-button:not(:disabled):hover {
-  background: #2563eb;
+
+.activeButton {
+  background: var(--accent-secondary-color);
+  color: #fff;
+}
+
+.sentButton:disabled,
+.receivedButton:disabled {
+  cursor: not-allowed;
 }

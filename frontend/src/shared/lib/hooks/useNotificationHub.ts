@@ -22,7 +22,6 @@ export const useNotificationHub = (
     connection
       .start()
       .then(() => {
-        // Если на сервере реализовано разделение по группам
         connection.invoke("JoinGroup", userId).catch(console.error);
       })
       .catch(console.error);
