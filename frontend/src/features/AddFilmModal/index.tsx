@@ -10,7 +10,7 @@ interface AddFilmModalProps {
   onSuccess: () => void;
   editMode?: boolean;
   initialData?: Partial<FilmFormData & { id?: number; imageUrl?: string }>;
-  onSubmitCustom?: (data: FilmFormData) => Promise<void>;
+  onSubmitCustom?: (formData: FormData) => Promise<void>;
 }
 
 interface Category {
@@ -103,7 +103,7 @@ export const AddFilmModal: FC<AddFilmModalProps> = ({ isOpen, onClose, onSuccess
     }
     try {
       if (editMode && onSubmitCustom) {
-        await onSubmitCustom(data);
+        await onSubmitCustom(formData);
       } else {
         await axiosSettings.post("/Film", formData, {
           headers: { "Content-Type": "multipart/form-data" },
