@@ -6,6 +6,7 @@ import { axiosSettings } from "@/shared/api/axiosSettings";
 import { Film } from "@/shared/types/film";
 import { CategoryTable } from "@/features/tables/CategoryTable";
 import { AddCategoryModal } from "@/features/tables/CategoryTable/AddCategoryModal";
+import { UsersTable } from "@/features/tables/UsersTable";
 
 export const Admin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,6 +71,10 @@ export const Admin = () => {
         onClose={handleCloseCategoryModal}
         onSuccess={handleCategorySuccess}
       />
+      <div className={styles.header} style={{ marginTop: 40 }}>
+        <h1>Управление пользователями</h1>
+      </div>
+      <UsersTable />
     </div>
   );
 };
