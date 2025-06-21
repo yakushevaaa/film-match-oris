@@ -58,4 +58,8 @@ export const NAV_CONFIG: NavConfig = {
     { label: "Главная", color: "dark", to: "/" },
     { label: "Профиль", color: "dark", to: "/profile" },
   ],
+  "/admin": [
+    { label: "Главная", color: "dark", to: "/" },
+    { label: "Фильмы", color: "dark", to: "/films" },
+  ],
 };
