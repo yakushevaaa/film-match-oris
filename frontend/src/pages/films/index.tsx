@@ -41,7 +41,7 @@ export const FilmPage = () => {
     setIsLoading(true);
     try {
       const params: any = {};
-      if (selectedGenres.length > 0) params.categoryId = selectedGenres.join(",");
+      if (selectedGenres.length > 0) params.categoryId = selectedGenres[0];
       if (searchValue) params.search = searchValue;
       const response = await axiosSettings.get<Film[]>("/Film/GetAllFilms", { params });
       setFilms(response.data);
@@ -59,7 +59,7 @@ export const FilmPage = () => {
   // Синхронизация состояния с query-параметрами
   useEffect(() => {
     const params: any = {};
-    if (selectedGenres.length > 0) params.categoryId = selectedGenres.join(",");
+    if (selectedGenres.length > 0) params.categoryId = selectedGenres[0];
     if (searchValue) params.search = searchValue;
     setSearchParams(params, { replace: true });
   }, [selectedGenres, searchValue, setSearchParams]);

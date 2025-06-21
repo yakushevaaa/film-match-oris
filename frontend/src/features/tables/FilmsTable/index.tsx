@@ -22,19 +22,10 @@ export const FilmsTable = ({ films, isLoading, fetchFilms }: FilmsTableProps) =>
         setEditModalOpen(true);
     };
 
-    const handleEditSubmit = async (data: any) => {
+    const handleEditSubmit = async (formData: FormData) => {
         try {
-            if (data.releaseDate) {
-                data.releaseDate = new Date(data.releaseDate).toISOString();
-            }
-            await axiosSettings.put(`/Film/${editFilm?.id}`, {
-                id: editFilm?.id,
-                title: data.title,
-                releaseDate: data.releaseDate,
-                imageUrl: data.imageUrl,
-                longDescription: data.longDescription,
-                shortDescription: data.shortDescription,
-                categoryId: data.categoryId,
+            await axiosSettings.put(`/Film/${editFilm?.id}`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
             setEditModalOpen(false);
             setEditFilm(null);
