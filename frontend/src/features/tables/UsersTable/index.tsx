@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { DataTable } from '@shared/ui/DataTable';
+import { MaterialReactTable, type MRT_ColumnDef, type MRT_Row } from 'material-react-table';
 import { axiosSettings } from '@shared/api/axiosSettings';
-import type { MRT_ColumnDef, MRT_Row } from 'material-react-table';
+import styles from './index.module.scss';
 
 interface User {
   id: string;
@@ -52,6 +52,29 @@ export const UsersTable = () => {
 
   const columns: MRT_ColumnDef<User>[] = [
     {
+      header: 'Действия',
+      id: 'actions',
+      size: 250,
+      Cell: ({ row }) => (
+        <div style={{ display: 'flex', gap: 8 }}>
+          {!row.original.roles.includes('Admin') && (
+            <button className={styles.userActionButton + ' ' + styles.makeAdminButton} onClick={() => handleMakeAdmin(row)}>
+              Сделать админом
+            </button>
+          )}
+          {row.original.roles.includes('Blocked') ? (
+            <button className={styles.userActionButton} onClick={() => handleBlockUser(row)}>
+              Разблокировать
+            </button>
+          ) : (
+            <button className={styles.userActionButton} onClick={() => handleBlockUser(row)}>
+              Заблокировать
+            </button>
+          )}
+        </div>
+      ),
+    },
+    {
       accessorKey: 'email',
       header: 'Email',
       size: 250,
@@ -66,13 +89,20 @@ export const UsersTable = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Пользователи</h1>
-      <DataTable
-        data={users}
+      <MaterialReactTable
         columns={columns}
-        onEdit={handleMakeAdmin}
-        onDelete={handleBlockUser}
-        isLoading={isLoading}
+        data={users}
+        state={{ isLoading }}
+        enableRowActions={false}
+        enableColumnActions={false}
+        enableSorting={false}
+        enableFullScreenToggle={false}
+        enableDensityToggle={false}
+        enableHiding={false}
+        enableFilters={false}
+        enableGlobalFilter={false}
+        enablePagination={true}
+        muiTableBodyRowProps={{ hover: true }}
       />
     </div>
   );
