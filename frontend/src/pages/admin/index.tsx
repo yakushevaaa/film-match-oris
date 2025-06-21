@@ -7,6 +7,10 @@ import { Film } from "@/shared/types/film";
 import { CategoryTable } from "@/features/tables/CategoryTable";
 import { AddCategoryModal } from "@/features/tables/CategoryTable/AddCategoryModal";
 import { UsersTable } from "@/features/tables/UsersTable";
+import { FriendsTable } from "@/features/userTables/FriendsTable";
+import { LikedFilmTable } from "@/features/userTables/LikedFilmTable";
+import { BookmarkedFilmTable } from "@/features/userTables/BookmarkedFilmTable";
+import { DislikedFilmTable } from "@/features/userTables/DislikedFilmTable";
 
 export const Admin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,6 +79,22 @@ export const Admin = () => {
         <h1>Управление пользователями</h1>
       </div>
       <UsersTable />
+      <div className={styles.header} style={{ marginTop: 40 }}>
+        <h1>Мои друзья</h1>
+      </div>
+      <FriendsTable />
+      <div className={styles.header} style={{ marginTop: 40 }}>
+        <h1>Понравившиеся фильмы</h1>
+      </div>
+      <LikedFilmTable />
+      <div className={styles.header} style={{ marginTop: 40 }}>
+        <h1>Закладки</h1>
+      </div>
+      <BookmarkedFilmTable />
+      <div className={styles.header} style={{ marginTop: 40 }}>
+        <h1>Не понравившиеся фильмы</h1>
+      </div>
+      <DislikedFilmTable />
     </div>
   );
 };

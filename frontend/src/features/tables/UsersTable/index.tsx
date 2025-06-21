@@ -58,7 +58,7 @@ export const UsersTable = () => {
       Cell: ({ row }) => (
         <div style={{ display: 'flex', gap: 8 }}>
           {!row.original.roles.includes('Admin') && (
-            <button className={styles.userActionButton + ' ' + styles.makeAdminButton} onClick={() => handleMakeAdmin(row)}>
+            <button className={styles.userActionButton} onClick={() => handleMakeAdmin(row)}>
               Сделать админом
             </button>
           )}
