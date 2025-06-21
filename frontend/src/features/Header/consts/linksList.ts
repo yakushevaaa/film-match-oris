@@ -14,15 +14,11 @@ export const NAV_CONFIG: NavConfig = {
     {
       label: "Главная",
       to: "/",
-      isAccent: true,
-      color: "light",
     },
     {
       label: "Мои друзья",
       to: "/profile/friends",
-      color: "light",
     },
-    
   ],
   "/profile/friends": [
     {
@@ -59,7 +55,7 @@ export const NAV_CONFIG: NavConfig = {
     { label: "Профиль", color: "light", to: "/profile" },
   ],
   "/films": [
-    { label: "Все фильмы", color: "dark", to: "/films/all" },
-    { label: "Избранное", color: "dark", to: "/films/favorites" },
+    { label: "Главная", color: "dark", to: "/" },
+    { label: "Профиль", color: "dark", to: "/profile" },
   ],
 };

@@ -119,9 +119,9 @@ namespace FilmMatch.Controllers
         }
 
         [HttpGet("AllLikedFilms")]
-        public async Task<IActionResult> GetAllLikedFilms()
+        public async Task<IActionResult> GetAllLikedFilms([FromQuery] Guid? userId = null)
         {
-            return Ok(await _mediator.Send(new GetLikedFilmsQuery()));
+            return Ok(await _mediator.Send(new GetLikedFilmsQuery(userId)));
         }
 
         [HttpPost("Dislike/{filmId}")]
