@@ -11,6 +11,7 @@ import { FriendsTable } from "@/features/userTables/FriendsTable";
 import { LikedFilmTable } from "@/features/userTables/LikedFilmTable";
 import { BookmarkedFilmTable } from "@/features/userTables/BookmarkedFilmTable";
 import { DislikedFilmTable } from "@/features/userTables/DislikedFilmTable";
+import { useRoleAccess } from "@/shared/lib/hooks/useRoleAccess";
 
 export const Admin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,6 +19,7 @@ export const Admin = () => {
   const [films, setFilms] = useState<Film[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [categoryTableKey, setCategoryTableKey] = useState(0);
+  const { hasAccessTo } = useRoleAccess();
 
   const fetchFilms = useCallback(async () => {
     setIsLoading(true);
@@ -51,50 +53,62 @@ export const Admin = () => {
 
   return (
     <div className={styles.admin}>
-      <div className={styles.header}>
-        <h1>Управление фильмами</h1>
-        <button className={styles.addButton} onClick={handleOpenModal}>
-          Добавить фильм
-        </button>
-      </div>
-      <FilmsTable films={films} isLoading={isLoading} fetchFilms={fetchFilms} />
-      <AddFilmModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onSuccess={handleSuccess}
-      />
-      <div className={styles.header} style={{ marginTop: 40 }}>
-        <h1>Управление категориями</h1>
-        <button className={styles.addButton} onClick={handleOpenCategoryModal}>
-          Добавить категорию
-        </button>
-      </div>
-      <CategoryTable key={categoryTableKey} />
-      <AddCategoryModal
-        isOpen={isCategoryModalOpen}
-        onClose={handleCloseCategoryModal}
-        onSuccess={handleCategorySuccess}
-      />
-      <div className={styles.header} style={{ marginTop: 40 }}>
-        <h1>Управление пользователями</h1>
-      </div>
-      <UsersTable />
-      <div className={styles.header} style={{ marginTop: 40 }}>
-        <h1>Мои друзья</h1>
-      </div>
-      <FriendsTable />
-      <div className={styles.header} style={{ marginTop: 40 }}>
-        <h1>Понравившиеся фильмы</h1>
-      </div>
-      <LikedFilmTable />
-      <div className={styles.header} style={{ marginTop: 40 }}>
-        <h1>Закладки</h1>
-      </div>
-      <BookmarkedFilmTable />
-      <div className={styles.header} style={{ marginTop: 40 }}>
-        <h1>Не понравившиеся фильмы</h1>
-      </div>
-      <DislikedFilmTable />
+      {hasAccessTo('admin') && (
+        <>
+          <div className={styles.header}>
+            <h1>Управление фильмами</h1>
+            <button className={styles.addButton} onClick={handleOpenModal}>
+              Добавить фильм
+            </button>
+          </div>
+          <FilmsTable films={films} isLoading={isLoading} fetchFilms={fetchFilms} />
+          <AddFilmModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onSuccess={handleSuccess}
+          />
+          <div className={styles.header} style={{ marginTop: 40 }}>
+            <h1>Управление категориями</h1>
+            <button className={styles.addButton} onClick={handleOpenCategoryModal}>
+              Добавить категорию
+            </button>
+          </div>
+          <CategoryTable key={categoryTableKey} />
+          <AddCategoryModal
+            isOpen={isCategoryModalOpen}
+            onClose={handleCloseCategoryModal}
+            onSuccess={handleCategorySuccess}
+          />
+        </>
+      )}
+      {hasAccessTo('god') && (
+        <>
+          <div className={styles.header} style={{ marginTop: 40 }}>
+            <h1>Управление пользователями</h1>
+          </div>
+          <UsersTable />
+        </>
+      )}
+      {hasAccessTo('user') && (
+        <>
+          <div className={styles.header} style={{ marginTop: 40 }}>
+            <h1>Мои друзья</h1>
+          </div>
+          <FriendsTable />
+          <div className={styles.header} style={{ marginTop: 40 }}>
+            <h1>Понравившиеся фильмы</h1>
+          </div>
+          <LikedFilmTable />
+          <div className={styles.header} style={{ marginTop: 40 }}>
+            <h1>Закладки</h1>
+          </div>
+          <BookmarkedFilmTable />
+          <div className={styles.header} style={{ marginTop: 40 }}>
+            <h1>Не понравившиеся фильмы</h1>
+          </div>
+          <DislikedFilmTable />
+        </>
+      )}
     </div>
   );
 };
